@@ -1,0 +1,23 @@
+﻿<html>
+	<script type="text/javascript">
+		function onReady() {
+			var j = {
+				'a' : 'This is a!',
+				'b' : 'This is b!',
+				'c' : 'This is c!'
+			};
+			
+			var val = j.a;
+			val += j.b;
+			val += j.c;
+			alert(val);
+			
+			val = j['a'];
+			val += j['b'];
+			val += j['c'];
+			alert(val);
+		}
+	</script>
+	<body onload="return onReady();">
+	</body>
+</html>

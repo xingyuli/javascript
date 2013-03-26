@@ -1,0 +1,53 @@
+﻿<html>
+	<script type="text/javascript">
+		function onReady() {
+			var ulDom = document.getElementById('items');
+
+			/*
+			 * addEventListener is undefined in IE8!
+			 *
+			 * In IE, we need to use event model like:
+			 * -------------------
+			 * dom.onclick = ...
+			 * dom.ondblclick = ...
+			 * -------------------
+			 * 
+			 * But we can utilize some library to complete
+			 * the code in a unified form.
+			 */
+
+			// Solution 1: Traditional
+			/*
+			var items = ulDom.getElementsByTagName('li');
+			for (var i = items.length - 1; i >= 0; i--) {
+				
+				items[i].addEventListener('click', handler, false);
+			};
+			function handler(e) {
+				var x = e.target;
+				alert(x.id);
+				e.preventDefault();
+			};
+			*/
+
+			// Solution 2: Event Delegation
+			ulDom.addEventListener('click', handler, false);
+			function handler(e) {
+				var x = e.target;
+				if (x.nodeName.toLowerCase() === 'li') {
+					alert('Event delegation: ' + x.id);
+					e.preventDefault();
+				}
+			};
+		}
+	</script>
+	<body onload="return onReady();">
+		<ul id='items'>
+			<li id='tool_1'>AAA</li>
+			<li id='tool_2'>BBB</li>
+			<li id='tool_3'>CCC</li>
+			<li id='tool_4'>DDD</li>
+			<li id='tool_5'>EEE</li>
+		</ul>
+	</body>
+</html>

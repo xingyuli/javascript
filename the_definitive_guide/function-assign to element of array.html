@@ -1,0 +1,24 @@
+<html>
+<body>
+	<head>
+		<title>function-assign to element of array</title>
+		<script type="text/javascript">
+			function print(msg) {
+				document.write(msg);
+			}			
+
+			function distance(x1, y1, x2, y2) {
+				var dx = x1 - x2;
+				var dy = y1 - y2;
+				return Math.sqrt(dx * dx + dy * dy);
+			}
+
+			var a = new Array(2);
+			a[0] = print;
+			a[1] = distance;
+			a[0]("a[0](a[1](2, 2, 4, 4,)) = " + a[1](2 ,2 ,4 ,4 ));
+		</script>
+	</head>
+</body>
+</html>
+ 

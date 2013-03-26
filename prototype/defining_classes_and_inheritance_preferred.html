@@ -1,0 +1,48 @@
+﻿<html>
+	<head>
+		<title>preferred classes and inheritance</title>
+		<script type="text/javascript" src="../js/prototype-1.6.0.3.js"></script>
+		
+		<script type="text/javascript">
+		
+			/**
+			 * new, preferred syntax
+			 *
+			 * enhancement:
+			 * 1. both class and subclass definitions are shorter because you don't need to hack their prototypes directly anymore
+			 * 2. calling the overriden method
+			 **/
+			
+			// properties are directly passed to 'create' method
+			var Person = Class.create({
+				initialize: function(name) {
+					this.name = name;
+				},
+				say: function(message) {
+					return this.name + ': ' + message;
+				}
+			});
+			
+			// when subclassing, specify the class you want to inherit from
+			var Pirate = Class.create(Person, {
+				// redefine the speak method
+				say: function($super, message) {
+					return $super(message) + ', yarr!';
+				}
+			});
+		
+			document.observe("dom:loaded", function() {
+				var guy = new Person('Miro');
+				$('greeting').update(guy.say('hi'));
+				
+				var john = new Pirate('Long John');
+				$('greeting_pirate').update(john.say('ahoy matey'));
+			});
+			
+		</script>
+	</head>
+	<body>
+		<div id="greeting"></div>
+		<div id="greeting_pirate"></div>
+	</body>
+</html>

@@ -1,0 +1,146 @@
+﻿<html>
+	<body>
+		<form name="myform">
+			<table border="border" cellpadding="5">
+			
+				<tr>
+					<td align="right">text input</td>
+					<td>
+						t1&nbsp;<input id="t1" type="text" name="t1"/>
+						t2&nbsp;<input id="t2" type="text" name="t2"/>
+						t3&nbsp;<input id="t3" type="text" name="t3"/>
+						t4&nbsp;<input id="t4" type="text" name="t4"/>
+					</td>
+				</tr>
+			
+				<tr>
+					<td align="right">change bgColor</td>
+					<td>
+						<input id="bgButton" name="aButton" type="button" value="GREEN"/>
+						<input id="resetBgButton" name="bgButton" type="button" value="RESET"/>
+					</td>
+				</tr>
+				
+				<tr id="lastRow">
+					<td align="right">select element</td>
+					<td>
+						<select name="country" id="country">
+							<option value="China">中国</option>
+							<option value="Korea">韩国</option>
+							<option value="Japan">日本</option>
+							<option value="Singapore">新加坡</option>
+						</select><br/>
+						<input id="countryInput" type="text"/>
+						<input id="addButton" class="dummy-class" type="button" value="ADD"/>
+						<input id="removeButton" type="button" value="REMOVE"/>
+						<input id="resetButton" type="button" value="RESET"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right">reverse document</td>
+					<td><input id="reverseButton" name="reverseButton" type="button" value="REVERSE"/></td>
+				</tr>
+				
+			</table>
+		</form>
+	</body>
+	
+	<script>
+		if (!window.Node) {
+			var Node = {            // If there is no Node object, define one
+				ELEMENT_NODE : 1,    // with the following properties and values.
+				ATTRIBUTE_NODE : 2,  // Note that these are HTML node types only.
+				TEXT_NODE : 3,       // For XML-specific nodes, you need to add
+				COMMENT_NODE : 8,    // other constants here.
+				DOCUMENT_NODE : 9,
+				DOCUMENT_FRAGMENT_NODE : 11
+			}
+		}
+		
+		function isTypeOf(x, type) {
+			if (!type) return false;
+			else return typeOf(x) == type;
+		}
+		
+		function typeOf(x) {
+			var t = typeof x;
+			if (!t == "object") return t;
+			
+			var c = Object.prototype.toString.apply(x);
+			return c.substring(8, c.length - 1);
+		}
+		
+		function $(id) {
+			return document.getElementById(id);
+		}
+		
+		function reverse(element) {
+			for (var i = element.childNodes.length - 1; i >= 0; i--) {
+				element.appendChild(reverse(element.childNodes[i]));
+			}
+			return element;
+		}
+		
+		function addHandlers() {
+			for (var i = 1; i <= 4; i++) {
+				$("t" + i).onfocus = function() {
+					alert(this.id);
+				};
+			}
+			
+			$("bgButton").onclick = function() {
+				document.bgColor = this.value;
+				this.value = (this.value == "GREEN" ? "#FFCCDD" : "GREEN");
+			};
+			
+			$("resetBgButton").onclick = function() {
+				document.bgColor = "#FFFFFF";
+			};
+			
+			var country = document.myform.country;
+			$("addButton").onclick = function() {
+				var input = $("countryInput").value;
+				if (input) {
+					country.options[country.options.length] = new Option(input, input, "selected", "selected");
+				}
+			};
+			
+			$("removeButton").onclick = function() {
+				var input = $("countryInput").value;
+				if (input) {
+					var removed = false;
+					for (var index in country.options) {
+						if (country.options[index].text == input) {
+							country.options[index] = null;
+							$("countryInput").value = "";
+							removed = true;
+							break;
+						}
+					}
+					
+					if (!removed) alert("No option exists with text: " + input);
+				}
+			};
+			
+			var initOptions = new Array();
+			for (var i = 0; i < country.options.length; i++) {
+				initOptions.push(country.options[i]);
+			}
+			
+			$("resetButton").onclick = function() {
+				country.options.length = initOptions.length;
+				for (var i = 0; i < initOptions.length; i++) {
+					country.options[i] = initOptions[i];
+				}
+				$("countryInput").value = "";
+				$("countryInput").focus();
+			};
+			
+			$("reverseButton").onclick = function() {
+				reverse(document.body);
+			};
+		}
+		addHandlers();
+	</script>
+</html>

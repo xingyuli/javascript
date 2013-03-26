@@ -1,0 +1,59 @@
+<html>
+	<script type="text/javascript">
+		function animateCSS(element, numFrames, timePerFrame, animation, whendone) {
+			var frame = 0;  // Store current frame number
+			var time = 0;   // Store total elapsed time
+
+			// Arrange to call displayNextFrame(  ) every timePerFrame milliseconds.
+			// This will display each of the frames of the animation.
+			var intervalId = setInterval(displayNextFrame, timePerFrame);
+
+			// The call to animateCSS(  ) returns now, but the line above ensures that
+			// the nested function defined below will be invoked once for each frame
+			// of the animation.  Because this function is defined inside 
+			// animateCSS(  ), it has access to the arguments and local variables of
+			// animateCSS(  ) even though it is invoked after that function has returned!
+			function displayNextFrame(  ) {
+				if (frame >= numFrames) {             // First, see if we're done
+					clearInterval(intervalId);        // If so, stop calling ourselves
+					if (whendone) whendone(element);  // Invoke whendone function
+					return;                           // And we're finished
+				}
+
+				// Now loop through all properties defined in the animation object
+				for(var cssprop in animation) {
+					// For each property, call its animation function, passing the
+					// frame number and the elapsed time. Use the return value of the
+					// function as the new value of the corresponding style property
+					// of the specified element. Use try/catch to ignore any
+					// exceptions caused by bad return values.
+					try {
+						element.style[cssprop] = animation[cssprop](frame, time);
+					} catch(e) {}
+				}
+
+				frame++;               // Increment the frame number
+				time += timePerFrame;  // Increment the elapsed time
+			}
+		}
+
+		function onReady() {
+			animateCSS(document.forms[0].elements[0], 40, 50,  // Button, 40 frames, 50ms
+			   {  // This trigonometry defines a circle of radius 100 at (200,200):
+				   left: function(f,t){ return 200 + 100*Math.cos(f/8) + "px"},
+				   top:  function(f,t){ return 200 + 100*Math.sin(f/8) + "px"}
+			   },
+				function(button) { button.value = "Done"; }
+			);
+		}
+	</script>
+	<body onload="return onReady();">
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<form>
+			<input type="button" value="init value"/>
+		</form>
+	</body>
+</html>

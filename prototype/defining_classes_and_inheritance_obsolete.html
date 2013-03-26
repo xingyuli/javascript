@@ -1,0 +1,49 @@
+﻿<html>
+	<head>
+		<title>obsolete classes and inheritance</title>
+		<script type="text/javascript" src="../js/prototype-1.6.0.3.js"></script>
+		
+		<script type="text/javascript">
+		
+			/** 
+			 * obsolete syntax
+			 * 
+			 * disadvantages:
+			 * 1. direct interaction with class prototypes
+			 * 2. clumsy inheritance technique using Object.extend
+			 * 3. no way of calling the overriden method
+			 **/
+			 
+		    var Person = Class.create();
+			Person.prototype = {
+				initialize: function(name) {
+					this.name = name;
+				},
+				say: function(message) {
+					return this.name + ': ' + message;
+				}
+			};
+			
+			var Pirate = Class.create();
+			Pirate.prototype = Object.extend(new Person(), {
+				// redefine the speak method
+				say: function(message) {
+					return this.name + ': ' + message + ', yarr!';
+				}
+			});
+			
+			document.observe("dom:loaded", function() {
+				var guy = new Person('Miro');
+				$('greeting').update(guy.say('hi'));
+				
+				var john = new Pirate('Long John');
+				$('greeting_pirate').update(john.say('ahoy matey'));
+			});
+			
+		</script>
+	</head>
+	<body>
+		<div id="greeting"></div>
+		<div id="greeting_pirate"></div>
+	</body>
+</html>

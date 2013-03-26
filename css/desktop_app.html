@@ -1,0 +1,183 @@
+<html>
+
+	<style type="text/css">	
+		#backgroundImage {
+			margin: 5px;
+			position: absolute;
+			z-index: -2;
+			clip: rect(auto 800px 600px auto);
+		}
+	
+		#desktop {
+			background-color: #FFEEAA;
+			border: inset 5px blue;
+			padding: 0px;
+			position: absolute;
+			width: 800px;
+			height: 600px;
+			z-index: -1;
+		}
+		
+		div.window {
+			border: outset 3px blue;
+			position: absolute;
+			top: 50px;
+			left: 50px;
+		}
+		
+		div.title {
+			padding: 2px 4px 2px 4px;
+			color: white;
+			background-color: gray;
+			border-bottom: groove 2px;
+		}
+		
+		div.workingArea {
+			background-color: white;
+			width: 400px;
+			height: 200px;
+			overflow: auto;
+		}
+		
+		#borderDiv div {
+			margin: 2px;
+			padding: 2px;
+			border-spacing: 1px;
+			border-color: blue;
+		}
+	</style>
+	
+	<body onload="onReady();">
+		<img id="backgroundImage" src="../images/background_image.jpg"/>
+		<div id="desktop">
+			<div id="textWindow" class="window">
+				<div class="title">Window</div>
+				<textArea class="workingArea">
+				18731,18731,18731,18731
+				</textArea>
+			</div>
+			
+			<div id="borderWindow" class="window" style="top: 200px; left: 200px;">
+				<div class="title">Borders</div>
+				<div id="borderDiv" class="workingArea" style="width: 500px;">
+					<div style="border-style: dotted">This is dotted border.</div>
+					<div style="border-style: dashed">This is dashed border.</div>
+					<div style="border-style: solid">This is solid border.</div>
+					<div style="border-style: double">This is double border.</div>
+					<div style="border-style: groove">This is groove border.</div>
+					<div style="border-style: ridge">This is ridge border.</div>
+					<div style="border-style: inset">This is inset border.</div>
+					<div style="border-style: outset">This is outset border.</div>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	
+	<script type="text/javascript">
+		function $I(id) { return document.getElementById(id); }		
+		function $C(className) { return document.getElementsByClassName(className); }
+		function $N(name) {	return document.getElementsByName(name); }
+		function $T(tagName) { return document.getElementsByTagName(tagName); }
+		
+		function onReady() {		
+			if (navigator.appName.indexOf('Netscape') != -1) { // FF
+				window.opacityGap = 0.1;
+				window.opacityLimit = 1;
+				window.opacityProp = 'opacity';
+				window.generateOpacity = function(op) { return op; };
+				
+			} else if (navigator.appName.indexOf('Microsoft') != -1) { // IE
+				window.opacityGap = 10;
+				window.opacityLimit = 100;
+				window.opacityProp = 'filter';
+				window.generateOpacity = function(op) { return "alpha(opacity=" + op + ")"; };
+			}
+		
+			showDesktop();
+			addHandlers();
+		}
+	
+		function showDesktop() {
+			var width = 0, height = 0;
+			var nextClip = function() {
+				$I("desktop").style.clip = "rect(auto " + width + "px " + height + "px auto)";
+				width += 16;
+				height += 12;
+				
+				if (width <= 800) {
+					window.setTimeout(
+						function() { nextClip(); },
+						20
+					);
+				}
+			};
+			nextClip();
+		}
+		
+		function addHandlers() {
+			var windows = $C("window");
+			for (var i = 0; i < windows.length; i++) {
+				windows[i].onclick = function() {
+					if (addHandlers.topWindow && this == addHandlers.topWindow) return;
+					if (addHandlers.topWindow) addHandlers.topWindow.style["zIndex"] -= 1;
+					
+					this.style["zIndex"] += 1;
+					addHandlers.topWindow = this;
+				};
+				// fadeIn(windows[i]);
+			}
+		}
+		
+		var ining = false;
+		var outing = false;
+		function fadeIn(dom) {
+			if (!fadeIn.nextOpacity) {
+				fadeIn.nextOpacity = function(dom, currentOpacity) {
+					if (currentOpacity > opacityLimit) ining = false;
+					else {
+						dom.style[opacityProp] = window.generateOpacity(currentOpacity);
+						window.setTimeout(
+							function() { fadeIn.nextOpacity(dom, currentOpacity + opacityGap); },
+							50
+						);
+					}
+				};
+			}
+		
+			if (outing) window.setTimeout( function() { fadeIn(dom); }, 50);
+			else {
+				ining = true;
+				dom.style[opacityProp] = window.generateOpacity(0);				
+				window.setTimeout(
+					function() { fadeIn.nextOpacity(opacityGap); },
+					50
+				);
+			}
+		}
+		
+		function fadeOut() {
+			if (ining) return;
+			outing = true;
+			
+			if (!fadeOut.nextOpacity) {
+				fadeOut.nextOpacity = function(currentOpacity) {
+					if (currentOpacity < 0) outing = false;
+					else {
+						document.images['img'].style[opacityProp] = generateOpacity(currentOpacity);
+						window.setTimeout(
+							function() { fadeOut.nextOpacity(currentOpacity - opacityGap); },
+							50
+						);
+					}
+				}
+			}
+			
+			window.setTimeout(
+				function() { fadeOut.nextOpacity(opacityLimit); },
+				50
+			);
+		}
+	</script>
+	
+</html>

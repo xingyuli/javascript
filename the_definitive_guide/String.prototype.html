@@ -1,0 +1,15 @@
+<html>
+<body>
+	<head>
+		<title>String.prototype</title>
+		<script language="JavaScript">
+			String.prototype.endsWith = function(c) {
+				return this.charAt(this.length - 1) == c;
+			}
+			var str = "hello world";
+			alert("endsWith('h') : " + str.endsWith("h") + "\tendswith('d)' : " + str.endsWith("d"));
+		</script>
+	</head>
+</body>
+</html>
+ 

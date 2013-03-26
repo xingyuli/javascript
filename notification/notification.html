@@ -1,0 +1,51 @@
+<html>
+	<script type="text/javascript">
+		function onReady() {
+			animate(
+				{
+					img1 : { src : "./0.gif" },
+					img2 : { src : "./0_0.gif" }
+				},
+				"notification"
+			);
+			
+			animate(
+				{
+					img1 : { src : "./1.gif" },
+					img2 : { src : "./1_1.gif" }
+				},
+				"notification2"
+			);
+			
+			animate(
+				{
+					img1 : { src : "./2.gif" },
+					img2 : { src : "./2_2.gif" }
+				},
+				"notification3"
+			);
+		}
+		
+		function animate(imgStatus, targetId) {
+			imgStatus.img1.next = imgStatus.img2;
+			imgStatus.img2.next = imgStatus.img1;
+			imgStatus.current = imgStatus.img1;
+			
+			window.setInterval(
+				function() {
+					document.getElementById(targetId).src = imgStatus.current.src;
+					imgStatus.current = imgStatus.current.next;
+				},
+				400
+			);
+		}
+	</script>
+	<body onload="return onReady();">
+		<img id="notification" alt=""></img>
+		<p/>
+		<img id="notification2" alt=""></img>
+		<p/>
+		<img id="notification3" alt=""></img>
+		<p/>
+	</body>
+</html>

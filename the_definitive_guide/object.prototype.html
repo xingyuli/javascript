@@ -1,0 +1,29 @@
+<html>
+<body>
+	<head>
+		<title>object.prototype</title>
+		<script language="JavaScript">
+
+			function Circle(x, y, r) {
+				this.x = x;
+				this.y = y;
+				this.r = r;
+			}
+			
+			Circle.prototype.pi = 3.14159;
+			Circle.prototype.circumference = function() {
+				return 2 * this.pi * this.r;
+			}
+			Circle.prototype.area = function() {
+				return this.pi * this.r * this.r;
+			}
+			
+			var c = new Circle(0.0, 0.0, 1.0);
+			var a = c.area();
+			var p = c.circumference();
+			document.write("area = " + a + ", circumference = " + p);
+		</script>
+	</head>
+</body>
+</html>
+ 

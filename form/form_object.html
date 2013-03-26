@@ -1,0 +1,34 @@
+<html>
+
+	<!-- Example 1 -->
+	<!--
+	<frameset cols="50%,50%">
+		<frame name="form-input-frame" src="./form_input.html"/>
+		<frame name="form-result-frame" src="./form_result.html"/>
+	</frameset>
+	-->
+	
+	<script type="text/javascript">
+	
+		function submitForm() {
+			// document.forms["test"].submit();
+			alert($("field").value);
+			return false;
+		}
+		
+		function $(id) {
+			return document.getElementById(id);
+		}
+		
+	</script>
+	<body>
+		<form name="test"
+			onsubmit="return submitForm();"
+			onreset="return confirm('Really want to reset the data?');">
+			<input id="field" type="text"/>
+			<input type="submit" value="submit"/>
+			<input type="reset" value="reset" />
+		</form>
+	</body>
+	
+</html>

@@ -1,0 +1,36 @@
+<html>
+	<script type="text/javascript">
+		function debug(msg) {
+			if (!debug.box) {
+				debug.box = document.createElement("div");
+				debug.box.setAttribute("style",
+                               "background-color: white; " +
+                               "font-family: monospace; " +
+                               "border: solid black 3px; " +
+                               "padding: 10px;");
+							   
+				// Way 1:
+				debug.box.innerHTML = "<h1 style='text-align:center'>Debugging Output</h1>";
+				
+				// Way 2:
+				/*
+				var title = document.createElement("h1");
+				title.setAttribute("style", "text-aligh: center");
+				title.appendChild(document.createTextNode("Debugging Output"));
+				*/
+				
+				document.body.appendChild(debug.box);
+			}
+			
+			var p = document.createElement("p");
+			p.appendChild(document.createTextNode(msg));
+			debug.box.appendChild(p);
+		}
+	</script>
+	<script type="text/javascript">
+		var times = 0;
+	</script>
+	<body>
+		<input type="button" value="debug" onclick="debug('clicked ' + (++times) + ' times');"/>
+	</body>
+</html>

@@ -1,0 +1,83 @@
+﻿
+/**
+* TabbedPanel styles
+*/
+.taber {
+    width: 700px;
+    background-color: #EFEFEF;
+    opacity: 0.85;
+    filter: alpha(opacity=85);
+}
+
+.taber .tabs {
+    padding: 5px 5px 5px 0px;
+    color: #FFFFFF;
+    background-color: #00409A;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.taber .tab {
+    padding: 5px 10px 5px 10px;
+}
+
+/**
+* form related styles when using TabbedPanel
+*/
+.taber form {
+    position: relative;
+    border-spacing: 0;
+    border-collapse: collapse;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.taber table.collapse {
+    border-collapse: collapse;
+}
+
+.taber .required {
+    font-weight: bold;
+}
+
+.taber .required_indicator {
+    color: red;
+    padding-right: 3px;
+}
+
+.taber tr td {
+    padding: 3px;
+    vertical-align: top;
+}
+
+.taber td.label {
+    text-align: right;
+    width: 220px;
+}
+
+.taber td.focus {
+    cursor: pointer;
+    cursor: hand;
+    color: blue;
+    font-weight: bold;
+}
+
+.taber td.helplink {
+    text-align: center;
+}
+
+.taber td.input_wrapper {
+    width: 400px;
+}
+
+.taber td.input_wrapper input {
+    width: 100%;
+}
+
+.taber td.input_wrapper select {
+    width: 100%;
+}
+
+.taber td.input_wrapper textarea {
+    width: 100%;
+}

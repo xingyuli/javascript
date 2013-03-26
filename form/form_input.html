@@ -1,0 +1,15 @@
+<html>
+	<script type="text/javascript">
+		function submitForm() {
+			var targetDocument = parent.frames["form-result-frame"].document;
+			targetDocument.write(document.forms["test"].elements[0].value);
+			targetDocument.close();
+		}
+	</script>
+	<body>
+		<form name="test">
+			<input type="" value="..."/>
+			<input type="button" value="submit" onclick="return submitForm();"/>
+		</form>
+	</body>
+</html>

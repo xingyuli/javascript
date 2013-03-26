@@ -1,0 +1,95 @@
+<html>
+	<script type="text/javascript">
+	// Very bad!
+	/*var name = 'Chris';
+	var age = '34';
+	var status = 'single';
+
+	function createMember () {
+		// ...
+	}
+
+	function getMemberDetails() {
+		// ...
+	}*/
+
+	// A little bit better.
+	/*var myApplication = function() {
+		var name = 'Chris';
+		var age = '34';
+		var status = 'single';
+
+		function createMember () {
+			// ...
+		}
+
+		function getMemberDetails() {
+			// ...
+		}
+
+		var self = arguments.callee;
+		self.flag = 'aha!';
+		return self;
+	}();*/
+
+	// Best when no outer access needed!
+	/*(function() {
+		var name = 'Chris';
+		var age = '34';
+		var status = 'single';
+
+		function createMember () {
+			// ...
+		}
+
+		function getMemberDetails() {
+			// ...
+		}
+
+		alert(name + ', ' + age + ', ' + status);
+	})();*/
+
+	// Best if outer access needed!
+	/*var myApplication = function() {
+		var name = 'Chris';
+		var age = '34';
+		var status = 'single';
+
+		return {
+			createMember: function() {
+				alert('Invoked: createMember');
+			},
+			getMemberDetails: function() {
+				alert('Invoked: getMemberDetails')
+			}
+		};
+	}();
+	myApplication.createMember();
+	myApplication.getMemberDetails();*/
+
+	// Another approach.
+	var myApplication = function() {
+		var name = 'Chris';
+		var age = '34';
+		var status = 'single';
+
+		function createMember() {
+			alert('Invoked: createMember');
+		}
+
+		function getMemberDetails() {
+			alert('Invoked: getMemberDetails')
+		}
+
+		return {
+			create: createMember,
+			get: getMemberDetails
+		};
+	}();
+	myApplication.create();
+	myApplication.get();
+
+	</script>
+	<body>
+	</body>
+</html>

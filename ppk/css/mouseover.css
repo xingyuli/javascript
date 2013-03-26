@@ -1,0 +1,9 @@
+﻿a#animation {
+	width: 256px;
+	height: 256px;
+	background-image: url(../images/sprite/1.png);
+}
+
+a:hover#animation, a:focus#animation, a:active#animation {
+	background-image: url(../images/sprite/1_hover.png);
+}

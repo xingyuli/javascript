@@ -1,0 +1,19 @@
+<html>
+<body>
+	<head>
+		<title>for-in.html</title>
+		<script type="text/javascript">
+			var o = {
+				time : "now",
+				name : "object",
+				id : 0
+			}
+			for (f in o) {
+				//document.write("o." + f + " = " + o[f] + "<br/>"); // [] operator is available
+				document.write("o." + f + " = " + o.f + "<br/>"); //. operator is not available
+			}
+		</script>
+	</head>
+</body>
+</html>
+ 

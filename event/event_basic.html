@@ -1,0 +1,33 @@
+<html>
+	<script type="text/javascript">
+		function $(id) {
+			return document.getElementById(id);
+		}
+	
+		function onReady() {
+			alert($("wrapper").addEventListener);
+		
+			$("wrapper").addEventListener(
+				"click", 
+				function(){alert("wrapper");},
+				false
+			);
+			
+			$("aDiv").addEventListener(
+				"click",
+				function(e) {
+					alert("aDiv");
+					e.stopPropagation();
+				},
+				false
+			);
+		}
+	</script>
+	<body onload="return onReady();">
+		<div id="wrapper">
+			<div>---------------------</div>
+			<div id="aDiv">aaaaaaaaaaa</div>
+			<div>---------------------</div>
+		</div>
+	</body>
+</html>

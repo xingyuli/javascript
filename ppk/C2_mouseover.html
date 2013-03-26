@@ -1,0 +1,45 @@
+﻿<html>
+	<link rel="stylesheet" href="css/mouseover.css"/>
+	<script type="text/javascript" src="../js/ease.js"></script>
+
+	<body>
+		<a href="#" id="animation">Animation</a>
+		<br/><br/>
+		<a href="#" id="animation_js"><img src="./images/sprite/1.png"/></a>
+	</body>
+	
+	<script type="text/javascript">
+	(function() {
+		var links = document.getElementsByTagName('img');
+		for (var i = 0; i < links.length; i++) {
+			var moSrc = links[i].src.substring(0, links[i].src.lastIndexOf('.'));
+			moSrc += '_hover.png';
+			links[i].moSrc = moSrc;
+			links[i].origSrc = links[i].src;
+			links[i].onmouseover = function() {
+				this.src = this.moSrc;
+			};
+			links[i].onmouseout = function() {
+				this.src = this.origSrc;
+			};
+		}
+	
+		/*
+		var links = EaseJS.$T('img');
+		for (var i = 0; i < links.length; i++) {
+			var moSrc = links[i].dom.src.substring(0, links[i].dom.src.lastIndexOf('.'));
+			moSrc += '_hover.png';
+			links[i].moSrc = moSrc;
+			links[i].origSrc = links[i].dom.src;
+			links[i].on('mouseover', function(self) {
+				self.dom.src = self.moSrc;
+			});
+			links[i].on('mouseout', function(self) {
+				self.dom.src = self.origSrc;
+			});
+		}
+		*/
+	})();
+	</script>
+	
+</html>

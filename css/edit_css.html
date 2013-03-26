@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//en">
+<html>
+	<script type="text/javascript" language="javascript">
+		window.onload = function() {
+			var styles = { color : 'red' };
+		
+			var div = document.getElementById('a_div');
+			for (var name in styles) {
+				div.style[name] = styles[name];
+			}
+		};
+		
+		document.onkeyup = function(event) {
+			alert(event.keyCode);
+		};
+	</script>
+	<body>
+		<div id='a_div'>sdlfjkweofwpefiwpefiwupeofui</div>
+	</body>
+</html>

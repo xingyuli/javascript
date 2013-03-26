@@ -1,0 +1,41 @@
+<html>
+	<script type="text/javascript">
+		function onReady() {
+			// Example 1:
+			// document.writeln('Last modified: ' + document.lastModified);
+			
+			// Example 2:
+			/*
+			var node = document.getElementById('test');
+			var id = 0;
+			document.onclick = function() {
+				document.write('<h1>Click ' + id + '</h1>');
+				id++;
+			};
+			*/
+		}
+		
+		// Example 3:
+		var _console = null;
+		var n = 0;
+		function debug(msg) {
+			if (_console == null || _console.closed) {
+				_console = window.open("", "console", "width=600,height=300,resizable");
+				_console.document.open("text/plain");
+			}
+			
+			_console.focus();
+			_console.document.writeln(msg);
+		}
+		
+	</script>
+	<body onload='return onReady();' bgColor ="#FFCCDD" text="blue">
+		<!--
+			<div id='test'>test....</div>
+		-->
+		<form>
+			<input type="button" value="Push Me"
+				onclick="return debug('You have pushed me:\t' + (++n) + ' times.');"/>
+		</form>
+	</body>
+</html>

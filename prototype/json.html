@@ -1,0 +1,23 @@
+﻿<html>
+	<head>
+		<title>JSON</title>
+		
+		<script type="text/javascript" src="../js/prototype-1.6.0.3.js"></script>
+		<script type="text/javascript">
+			document.observe('dom:loaded', function() {
+				var data = {name : 'Violet', occupation : 'character', age : 25};
+				$('json').update(Object.toJSON(data));
+				
+				$('json2').update($H({name : 'Violet', occupation : 'character', age : 25}).toJSON());
+				
+				var text = '{"name" : "Violet", "occupation" : "character", "age" : 25}';
+				$('name').update(text.evalJSON().name + ', ' + text.evalJSON().age);
+			});
+		</script>
+	</head>
+	<body>
+		<div id="json"></div>
+		<div id="json2"></div>
+		<div id="name"></div>
+	</body>
+</html>

@@ -1,0 +1,22 @@
+<html>
+<body>
+	<head>
+		<title>function-compute</title>
+		<script type="text/javascript">
+			function add (a, b) { return a + b; }
+			function subtract (a, b) { return a - b; }
+			function multiply (a, b) { return a * b; }
+			function divide (a, b) { return a / b; }
+			
+			function operate(operator, operand1, operand2) {
+				if (operator == undefined) return;
+				return operator(operand1, operand2);
+			}
+
+			var i = operate(add, operate(add, 2, 3), operate(multiply, 4, 5));
+			document.write(i);
+		</script>
+	</head>
+</body>
+</html>
+ 

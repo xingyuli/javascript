@@ -1,0 +1,66 @@
+<html>
+	<script type="text/javascript">		
+		var opacityGap, opacityLimit, opacityProp;
+		var generateOpacity;
+		if (navigator.appName.indexOf('Netscape') != -1) { // FF
+			opacityGap = 0.1;
+			opacityLimit = 1;
+			opacityProp = 'opacity';
+			generateOpacity = function(op) { return op; };
+		} else if (navigator.appName.indexOf('Microsoft') != -1) { // IE
+			opacityGap = 10;
+			opacityLimit = 100;
+			opacityProp = 'filter';
+			generateOpacity = function(op) { return "alpha(opacity=" + op + ")"; };
+		}
+		
+		// Pre-fetch the desired images
+		new Image().src = '../images/img_rollover.png';
+		new Image().src = '../images/img.png';
+			
+		var showing = false;
+		function fadeIn(path) {
+			if (showing) return;
+			showing = true;
+			
+			var imgNode = document.images['img'];
+			imgNode.style[opacityProp] = generateOpacity(0);
+			imgNode.src = path;
+			
+			function nextOpacity(currentOpacity) {
+				imgNode.style[opacityProp] = generateOpacity(currentOpacity);
+				if (currentOpacity < opacityLimit) {
+					window.setTimeout(
+						function() { nextOpacity(currentOpacity + opacityGap); },
+						50
+					);
+				} else {
+					showing = false;
+				}
+			}
+			
+			window.setTimeout(
+				function() { nextOpacity(opacityGap); },
+				50
+			);
+		}
+	</script>
+	<body>
+		<!--
+			document.img, document.images[0], document.images['img']
+		-->
+		<h1>Normal replacement</h1>
+		<a href="#"
+			onmouseover="document.images['img-test'].src='../images/img_rollover.png';"
+			onmouseout="document.images['img-test'].src='../images/img.png';">
+			<img name="img-test" src="../images/img.png" border="0"/>
+		</a>
+		<p/>
+		<h1>Fadein replacement</h1>
+		<a href="#"
+			onmouseover="return fadeIn('../images/img_rollover.png');"
+			onmouseout="return fadeIn('../images/img.png');">
+			<img name="img" src="../images/img.png" border="0"/>
+		</a>
+	</body>
+</html>

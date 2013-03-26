@@ -1,0 +1,99 @@
+<html>
+	<script type="text/javascript">
+	
+		var opacityGap, opacityLimit, opacityProp;
+		var generateOpacity;
+		
+		if (navigator.appName.indexOf('Netscape') != -1) { // FF
+			opacityGap = 0.1;
+			opacityLimit = 1;
+			opacityProp = 'opacity';
+			generateOpacity = function(op) { return op; };
+			
+		} else if (navigator.appName.indexOf('Microsoft') != -1) { // IE
+			opacityGap = 10;
+			opacityLimit = 100;
+			opacityProp = 'filter';
+			generateOpacity = function(op) { return "alpha(opacity=" + op + ")"; };
+		}
+		
+		// Pre-fetch the desired images
+		var imgURL = '../images/img.png';
+		var imgRolloverURL = '../images/img_rollover.png';
+		new Image().src = imgURL;
+		new Image().src = imgRolloverURL;
+		
+		var ining = false;
+		var outing = false;
+		function fadeIn(path) {
+			if (outing) {
+				window.setTimeout(
+					function() { fadeIn(path); },
+					50
+				);
+				
+			} else {
+				ining = true;
+				
+				var imgNode = document.images['img'];
+				imgNode.style[opacityProp] = generateOpacity(0);
+				imgNode.src = path;
+				
+				var nextOpacity = function(currentOpacity) {
+					if (currentOpacity > opacityLimit) ining = false;
+					else {
+						imgNode.style[opacityProp] = generateOpacity(currentOpacity);
+						window.setTimeout(
+							function() { nextOpacity(currentOpacity + opacityGap); },
+							50
+						);
+					}
+				}
+				
+				window.setTimeout(
+					function() { nextOpacity(opacityGap); },
+					50
+				);
+			}
+		}
+		
+		function fadeOut() {
+			if (ining) return;
+			outing = true;
+			
+			var nextOpacity = function(currentOpacity) {
+				if (currentOpacity < 0) outing = false;
+				else {
+					document.images['img'].style[opacityProp] = generateOpacity(currentOpacity);
+					window.setTimeout(
+						function() { nextOpacity(currentOpacity - opacityGap); },
+						50
+					);
+				}
+			}
+			
+			window.setTimeout(
+				function() { nextOpacity(opacityLimit); },
+				50
+			);
+		}
+		
+		function onReady() {
+			var currentImg = imgURL;
+			var nextImg = function() {
+				return currentImg = (currentImg == imgURL) ? imgRolloverURL : imgURL;
+			}
+			window.setInterval(
+				function() { 
+					fadeOut();
+					fadeIn(nextImg());
+				},
+				2000
+			);
+		}
+
+	</script>
+	<body onload="return onReady();">
+		<img name="img" src="../images/img.png" border="0"/>
+	</body>
+</html>

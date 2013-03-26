@@ -1,0 +1,35 @@
+﻿<html>
+	<head>
+		<title>mix-in modules</title>
+		
+		<script type="text/javascript" src="../js/prototype-1.6.0.3.js"></script>
+		
+		<script type="text/javascript">
+			var Vulnerable = {
+				wound: function(hp) {
+					this.health -= hp;
+					if (this.heath < 0) this.kill();
+				},
+				kill: function() {
+					this.dead = true;
+				}
+			};
+			
+			var Person = Class.create(Vulnerable, {
+				initialize: function() {
+					this.health = 100;
+					this.dead = false;
+				}
+			});
+			
+			document.observe("dom:loaded", function() {
+				var bruce = new Person();
+				bruce.wound(55);
+				$('bruce').update('Rest HP: ' + bruce.health);
+			});
+		</script>
+	</head>
+	<body>
+		<div id="bruce"></div>
+	</body>
+</html>
