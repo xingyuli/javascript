@@ -1,0 +1,59 @@
+﻿<html>
+	<script type="text/javascript">
+		/*
+			By default, the following stuff do not work under IE8:
+			e.stopPropagation()
+			e.preventDefault()
+		*/
+		function onReady() {
+			/*
+			document.getElementById('container').onclick = function(e) {
+				alert('clicked: ' + this.id);
+			};
+			*/
+			
+			document.getElementById('button').onclick = function(e) {
+				alert('clicked: ' + this.id);
+				
+				/* do not trigger the container's handler */
+				e.stopPropagation();
+			};
+			
+			document.getElementById('link').onclick = function(e) {
+				alert('clicked: ' + this.id);
+				
+				/* do not follow the hyperlink */
+				e.preventDefault();
+				
+				/* do not trigger the container's handler */
+				e.stopPropagation();
+			};
+			
+			/*
+			container(C)	descendent(D)		triggered order
+			true			true				C, D
+			true			false				C, D
+			false			true				D, C
+			false			false				D, C
+			*/
+			document.getElementById('container').addEventListener(
+				'click',
+				function(e) { alert('clicked: ' + this.id); },
+				true
+			);
+			
+			document.getElementById('descendent').addEventListener(
+				'click',
+				function(e) { alert('clicked: ' + this.id); },
+				false
+			);
+		}
+	</script>
+	<body onload="return onReady();">
+		<div id='container'>
+			<input id='button' type='button' value='Click Me'/>
+			<a id='link' href='#'>I'm a hyperlink</a>
+			<a id='descendent' href='javascript:void(0);'>trigger during capturing phrase</a>
+		</div>
+	</body>
+</html>
