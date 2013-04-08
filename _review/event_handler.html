@@ -1,0 +1,48 @@
+﻿<html>
+
+<head>
+<script type="text/javascript">
+/*
+	Not supported under IE8:
+	
+	- dom.addEventListener
+	
+	- the only parameter e in event handler
+	  e.g., dom.onclick = function(e) {}; e is undefined
+	
+	...
+*/
+function ready() {
+	var mh = document.getElementById('multiple_handlers');
+	
+	/*
+	mh.addEventListener('click', function(e) {
+		alert(this.id + ": 1st handler");
+	});
+	mh.addEventListener('click', function(e) {
+		alert(this.id + ": 2nd handler");
+	});
+	*/
+	
+	mh.onclick = function(e) {
+		alert(e + ', ' + this.id + ": 1st handler");
+	};
+	// another approach to regist multiple event handlers
+	mh.onclick = (function() {
+		var oldHandler = mh.onclick;
+		return function(e) {
+			oldHandler.call(this, e);
+			alert(e + ', ' + this.id + ": 2nd handler");
+		};
+	})();
+};
+</script>
+</head>
+
+<body onload="ready();">
+	<div id="container">
+		<a id="multiple_handlers" href="javascript:void(0);">Multiple event handler registed</a>
+	</div>
+</body>
+
+</html>

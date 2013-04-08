@@ -42,7 +42,7 @@ table, table th, table td { margin:0px; border:1px solid black; }
 
 	var d = new Date();
 	$w('<table>');
-	$w.trh('Expression', 'Result');
+	$w.tr('Expression', 'Result', true);
 	$w.tr(d, 'd instanceof Date: ' + (d instanceof Date));
 	$w('</table>');
 })();
