@@ -1,4 +1,16 @@
 ﻿(function() {
+
+	function extend(destination, source) {
+		for (var prop in source) {
+			destination[prop] = source[prop];
+		}
+		return destination;
+	}
+
+	extend(Object, {
+		extend: extend
+	});
+
 	/* Constants */
 	var EMPTY = function() {};
 
@@ -113,31 +125,33 @@
 		})(i);
 	}
 	
-	/*
-	$w.th - render <th>...</th>
-	
-	cellVal	: string
-	*/
-	$w.th = function(cellVal) {
+	/**
+	 * $w.th(cellVal)
+	 * - cellVal (string): cell value in <th></th>
+	 *
+	 * Render <th>...</th> to the document flow.
+	**/
+	function th(cellVal) {
 		$w('<th>' + Safe.str(cellVal) + '</th>');
 	};
 	
-	/*
-	$w.td - render <td>...</td>
-	
-	cellVal	: string
-	*/
-	$w.td = function(cellVal) {
+	/**
+	 * $w.td(cellVal)
+	 * - cellVal (string): cell value in <td></td>
+	 * Render <td>...</td> to the document flow.
+	**/
+	function td(cellVal) {
 		$w('<td>' + Safe.str(cellVal) + '</td>');
 	};
 	
-	/*
-	$w.tr: render <tr><th/>...</tr> or <tr><td></td>...</tr>
+	/**
+	 * $w.tr()
+	 * Render <tr><th/>...</tr> or <tr><td></td>...</tr> to document flow.
 	
 	cells	: string...,
 	isHead	: boolean
-	*/
-	$w.tr = function() {
+	**/
+	function tr() {
 		var lastArg = arguments[arguments.length - 1];
 		var isHead = lastArg && (typeof lastArg == "boolean");
 		if (isHead) {
@@ -154,4 +168,10 @@
 			});
 		}
 	};
+
+	Object.extend($w, {
+		th: th,
+		td: td,
+		tr: tr,
+	});
 })();
