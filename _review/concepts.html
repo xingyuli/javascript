@@ -1,52 +1,47 @@
 ﻿<html>
 
 <head>
-<style type="text/css">
-h4 { margin:10px 0px 5px 0px; }
-table { padding: 0px; }
-table th, table td { padding: 0px 5px 0px 5px; }
-table, table th, table td { margin:0px; border:1px solid black; }
-</style>
+	<link rel="stylesheet" type="text/css" href="css/writer.css"/>
 </head>
 
 <body>
-<script type="text/javascript" src="writer.js"></script>
-<script type="text/javascript">
-(function(){
-	$w.h4('No block level scope');
+	<script type="text/javascript" src="js/writer.js"></script>
+	<script type="text/javascript">
+	(function(){
+		$dw.h4('No block level scope');
 
-	var o = {};
-	var i = 0;
-	if (typeof o == "object") {
-		var j = 0;
-		for(var k = 0; k < 10; k++)
-			$w(k);
+		var o = {};
+		var i = 0;
+		if (typeof o == "object") {
+			var j = 0;
+			for(var k = 0; k < 10; k++)
+				$dw(k);
+			
+			$dw(k);
+		}
+		$dw(j);
+	})();
+
+	(function(){
+		$dw.h4('in');
 		
-		$w(k);
-	}
-	$w(j);
-})();
+		var point = { x: 1, y: 1 };
+		var hasX = 'x' in point;
+		var hasY = 'y' in point;
+		var hasZ = 'z' in point;
+		$dw('hasX: ' + hasX + ', hasY: ' + hasY + ', hasZ: ' + hasZ);
+	})();
 
-(function(){
-	$w.h4('in');
-	
-	var point = { x: 1, y: 1 };
-	var hasX = 'x' in point;
-	var hasY = 'y' in point;
-	var hasZ = 'z' in point;
-	$w('hasX: ' + hasX + ', hasY: ' + hasY + ', hasZ: ' + hasZ);
-})();
+	(function(){
+		$dw.h4('instanceof');
 
-(function(){
-	$w.h4('instanceof');
-
-	var d = new Date();
-	$w('<table>');
-	$w.tr('Expression', 'Result', true);
-	$w.tr(d, 'd instanceof Date: ' + (d instanceof Date));
-	$w('</table>');
-})();
-</script>
+		var d = new Date();
+		$dw('<table>');
+		$dw.tr('Expression', 'Result', true);
+		$dw.tr(d, 'd instanceof Date: ' + (d instanceof Date));
+		$dw('</table>');
+	})();
+	</script>
 </body>
 
 </html>

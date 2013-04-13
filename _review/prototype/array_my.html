@@ -1,0 +1,42 @@
+<html>
+
+<body>
+	<script type="text/javascript">
+	/* object.js */
+	(function() {
+		function extend(destination, source) {
+			for (var prop in source) {
+				destination[prop] = source[prop];
+			}
+			return destination;
+		}
+
+		extend(Object, {
+			extend: extend
+		});
+	})();
+
+	/* array.js */
+	(function() {
+
+		function clear() {
+			// Trick: set the length to 0 will empty the Array!
+			this.length = 0;
+			return this;
+		}
+
+		Object.extend(Array.prototype, {
+			clear: clear
+		});
+
+		/* test section */
+
+		var ar = ['aaa', 'bbb', 'ccc'];
+		ar.clear();
+
+		return;
+	})();
+	</script>
+</body>
+
+</html>

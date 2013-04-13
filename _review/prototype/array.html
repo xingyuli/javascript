@@ -1,0 +1,61 @@
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="../css/writer.css"/>
+</head>
+
+<body>
+	<script type="text/javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" src="../js/writer.js"></script>
+	<script type="text/javascript">
+	(function() {
+		var ar = ['aaa', 'bbb', 'ccc'];
+		$dw.h4('Array.clear()')
+		   .br('before: ' + ar)
+		   .br('after:' + ar.clear());
+
+		/* ***************************************************************** */
+
+		var toCompact = [ undefined, 'a', undefined, 'b', null, 'c' ];
+		$dw.h4('Array.compact()')
+		   .br('before: toCompact = ' + toCompact);
+		var compacted = toCompact.compact();
+		$dw.br('after: toCompact = '+ toCompact + ', compacted: ' + compacted);
+
+		/* ***************************************************************** */
+
+		var nested = ['a', ['b', 'c', ['d', 'e']], ['f', 'g', 'h']];
+		$dw.h4('Array.flatten()')
+		   .br('before: nested = ' + nested);
+		var flattened = nested.flatten()
+		$dw.br('after: nested = ' + nested + ', flattened = ' + flattened);
+
+		/* ***************************************************************** */
+
+		var toExclude = [1, 2, 3, 4, 5];
+		$dw.h4('Array.without(value[, value...])')
+		   .br('before: toExclude = ' + toExclude);
+		var excluded = toExclude.without(1, 3, 5);
+		$dw.br('after: toExclude = ' + toExclude + ', excluded = ' + excluded);
+
+		/* ***************************************************************** */
+
+		$dw.h4('Array.reverse([inline = true])');
+
+		var toReverse = ['a', 'b', 'c', 'd', 'e'];
+
+		$dw.br('<b>inline = false</b>')
+		   .br('before: toReverse=' + toReverse)
+		var reversedAsACopy = toReverse.reverse(false);
+		$dw.br('after: toReverse = ' + toReverse + ', reversed = ' + reversedAsACopy);
+
+		$dw.br('<b>inline = true</b>')
+		   .br('before: toReverse = ' + (toReverse = ['aaa', 'bbb', 'ccc', 'ddd']));
+		var reversedInline = toReverse.reverse();
+		$dw.br('after: toReverse = ' + toReverse + ', reversed = ' + reversedInline);
+
+	})();
+	</script>
+</body>
+
+</html>
