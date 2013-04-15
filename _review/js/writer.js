@@ -17,6 +17,22 @@
 		return destination;
 	}
 
+	function string(obj) {
+		switch (obj) {
+			case null: return 'null';
+			case (void 0): return 'undefined'; 
+		}
+
+		var type = typeof obj;
+		switch (type) {
+			case 'number':
+			case 'boolean':
+			case 'string': return String(obj);
+		}
+
+		return String(obj);
+	}
+
 	/**
 	 * each(args, handler)
 	 * - args (Array): items to iterate over
@@ -137,7 +153,7 @@
 	 * Render <p>...</p> to the document flow.
 	**/
 	function p(innerHTML) {
-		nodeRender('p', innerHTML || '');
+		nodeRender('p', string(innerHTML));
 		return this;
 	}
 
@@ -148,7 +164,7 @@
 	 * Render <b>...</b> to the document flow.
 	**/
 	function b(innerHTML) {
-		nodeRender('b', innerHTML || '');
+		nodeRender('b', string(innerHTML));
 		return this;
 	}
 
@@ -159,7 +175,7 @@
 	 * Render <th>...</th> to the document flow.
 	**/
 	function th(innerHTML) {
-		nodeRender('th', innerHTML || '');
+		nodeRender('th', string(innerHTML));
 		return this;
 	}
 
@@ -170,18 +186,18 @@
 	 * Render <td>...</td> to the document flow.
 	**/
 	function td(innerHTML) {
-		nodeRender('td', innerHTML || '');
+		nodeRender('td', string(innerHTML));
 		return this;
 	}
 	
 	var headRowRender = {
 		before	: function() 		{ $dw('<tr>'); },
-		handler	: function(item) 	{ $dw.th(item); },
+		handler	: function(item) 	{ $dw.th(string(item)); },
 		after	: function() 		{ $dw('</tr>'); }
 	};
 	var normalRowRender = {
 		before	: function() 		{ $dw('<tr>'); },
-		handler	: function(item) 	{ $dw.td(item); },
+		handler	: function(item) 	{ $dw.td(string(item)); },
 		after	: function() 		{ $dw('</tr>'); }
 	};
 	/**
