@@ -11,32 +11,32 @@
 	(function() {
 		var ar = ['aaa', 'bbb', 'ccc'];
 		$dw.h4('Array.clear()')
-		   .br('before: ' + ar)
-		   .br('after:' + ar.clear());
+		   .br('before: ' + ar.inspect())
+		   .br('after:' + ar.clear().inspect());
 
 		/* ***************************************************************** */
 
 		var toCompact = [ undefined, 'a', undefined, 'b', null, 'c' ];
 		$dw.h4('Array.compact()')
-		   .br('before: toCompact = ' + toCompact);
+		   .br('before: toCompact = ' + toCompact.inspect());
 		var compacted = toCompact.compact();
-		$dw.br('after: toCompact = '+ toCompact + ', compacted: ' + compacted);
+		$dw.br('after: toCompact = '+ toCompact.inspect() + ', compacted: ' + compacted.inspect());
 
 		/* ***************************************************************** */
 
 		var nested = ['a', ['b', 'c', ['d', 'e']], ['f', 'g', 'h']];
 		$dw.h4('Array.flatten()')
-		   .br('before: nested = ' + nested);
-		var flattened = nested.flatten()
-		$dw.br('after: nested = ' + nested + ', flattened = ' + flattened);
+		   .br('before: nested = ' + nested.inspect());
+		var flattened = nested.flatten();
+		$dw.br('after: nested = ' + nested.inspect() + ', flattened = ' + flattened.inspect());
 
 		/* ***************************************************************** */
 
 		var toExclude = [1, 2, 3, 4, 5];
 		$dw.h4('Array.without(value[, value...])')
-		   .br('before: toExclude = ' + toExclude);
+		   .br('before: toExclude = ' + toExclude.inspect());
 		var excluded = toExclude.without(1, 3, 5);
-		$dw.br('after: toExclude = ' + toExclude + ', excluded = ' + excluded);
+		$dw.br('after: toExclude = ' + toExclude.inspect() + ', excluded = ' + excluded.inspect());
 
 		/* ***************************************************************** */
 
@@ -45,15 +45,65 @@
 		var toReverse = ['a', 'b', 'c', 'd', 'e'];
 
 		$dw.br('<b>inline = false</b>')
-		   .br('before: toReverse=' + toReverse)
+		   .br('before: toReverse=' + toReverse.inspect())
 		var reversedAsACopy = toReverse.reverse(false);
-		$dw.br('after: toReverse = ' + toReverse + ', reversed = ' + reversedAsACopy);
+		$dw.br('after: toReverse = ' + toReverse.inspect() + ', reversed = ' + reversedAsACopy.inspect());
 
 		$dw.br('<b>inline = true</b>')
-		   .br('before: toReverse = ' + (toReverse = ['aaa', 'bbb', 'ccc', 'ddd']));
+		   .br('before: toReverse = ' + (toReverse = ['aaa', 'bbb', 'ccc', 'ddd']).inspect());
 		var reversedInline = toReverse.reverse();
-		$dw.br('after: toReverse = ' + toReverse + ', reversed = ' + reversedInline);
+		$dw.br('after: toReverse = ' + toReverse.inspect() + ', reversed = ' + reversedInline.inspect());
 
+		/* ***************************************************************** */
+
+		$dw.h4('Array.map(iterator[, context])');
+		var toMap = [1, 2, 3, 4, 5];
+		var mapped = toMap.map(function(item, index, all) {
+			return item * (index + 1);
+		});
+		$dw.br('toMap: ' + toMap.inspect())
+		   .br('mapped: ' + mapped.inspect());
+
+		/* ***************************************************************** */
+
+		$dw.h4('Array.filter(iterator[, context])');
+		var toFilter = [ 'hello', 'my', 'name', 'is', 'Liu', 'Xingyu' ];
+		var filteredOut = [];
+		var filtered = toFilter.filter(function(item, index, all) {
+			var select = item.indexOf('i') !== -1;
+			if (!select) {
+				this.push(item);
+			}
+			return select;
+		}, filteredOut);
+		$dw.br('toFilter: ' + toFilter.inspect())
+		   .br('filtered: ' + filtered.inspect() + ', filteredOut: ' + filteredOut.inspect());
+
+		// select even items, and plus 'blah ...' after each item
+		$dw.br('a combination of #map and #filter: ' + [
+		    'this', 'is', 'an', 'array', 'of', 'string',
+		    'to', 'test', '#map', 'and', '#filter'
+		 ].filter(function(item, index, all) {
+		      return index % 2 == 0;
+		  })
+		 .map(function(item, index, all) {
+		  	  return item + ' blah...';
+		  })
+		 .inspect()
+		);
+
+		/* ***************************************************************** */
+
+		$dw.h4('Array.some([iterator[, context]])');
+		var toSome = ['to', 'test', 'Array', 'some'];
+		var resultOfSome = toSome.some(function(item) {
+			return item.indexOf('some') !== -1; 			
+		});
+		$dw.br('toSome: ' + toSome.inspect())
+		   .br('whether at least one element contains a substring "some": ' + resultOfSome);
+
+		// #map, #filter, #some and #every all can carry an optional context argument
+		// which act as this in the iterator
 	})();
 	</script>
 </body>
