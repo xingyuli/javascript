@@ -1,0 +1,23 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="css/writer.css" />
+</head>
+<body>
+	<script type="text/javascript" src="js/writer.js"></script>
+	<script type="text/javascript">
+	(function() {
+		$dw('<table>');
+		$dw.tr("Expression",		"Result",			true)
+		   .tr("null >>> 0",		null		>>> 0)
+		   .tr("undefined >>> 0",	undefined	>>> 0)
+		   .tr("'' >>> 0",			''			>>> 0)
+		   .tr("false >>> 0",		false		>>> 0)
+		   .tr("true >>> 0",		true		>>> 0)
+		   .tr("-1 >>> 0",			-1			>>> 0)
+		   .tr("0 >>> 0",			0			>>> 0)
+		   .tr("10 >>> 0",			10			>>> 0);
+		$dw('</table>');
+	})();
+	</script>
+</body>
+</html>
