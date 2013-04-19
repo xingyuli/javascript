@@ -1,0 +1,104 @@
+<html>
+
+<body>
+	<script type="text/javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" src="../js/writer.js"></script>
+	<script type="text/javascript">
+	(function() {
+		$dw.h4('Object.clone()');
+
+		var original = {a:'aa', b:'bb', c:'cc'};
+		var copy = Object.clone(original);
+		$dw.br('before modification: original = ' + Object.toJSON(original) + ', copy = ' + Object.toJSON(copy));
+
+		Object.extend(original, { d: 'dd_original' });
+		Object.extend(copy, { d: 'dd_copy' });
+
+		$dw.br('after modification: original = ' + Object.toJSON(original) + ', copy = ' + Object.toJSON(copy));
+	})();
+
+	(function() {
+		$dw.h4('Object.extend()');
+
+		var obj = {};
+		$dw.br('before: obj = ' + Object.toJSON(obj));
+
+		Object.extend(obj, {
+			age: 24,
+			name: 'Liu Xingyu',
+			gender: 'Male'
+		});
+		$dw.br('after: obj = ' + Object.toJSON(obj));
+	})();
+
+	(function() {
+		$dw.h4('Object.inspect()');
+
+		var Toy = Class.create({
+
+			initialize: function(name, madeIn) {
+				this.name = name;
+				this.madeIn = madeIn;
+			},
+
+			greeting: function() {
+				return 'A ' + this.name + ' which made in ' + this.madeIn + '.';
+			}
+
+		});
+
+		var instance = new Toy('Tedy Bear', 'USA');
+		$dw.br('without inspect(): ' + Object.inspect(instance));
+
+		Toy.addMethods({
+			inspect: function() {
+				return this.greeting();
+			}
+		});
+		$dw.br('with inspect(): ' + Object.inspect(instance));
+
+		$dw.br('inspect String: ' + Object.inspect('hello'));
+		$dw.br('inspect Array: ' + Object.inspect(['aa', 'bb', 'cc']));
+		$dw.br('inspect JSON: ' + Object.inspect({a: 'aa', b: 'bb', c: 'cc'}));
+	})();
+
+	(function() {
+		$dw.h4('Object.isArray(), Object.isFunction()');
+
+		$dw('<table>');
+
+		$dw.tr('details', 'toString', 'Object.prototype.toString.call', 'isArray', 'isFunction', true);
+
+		var a = ['aa', 'bb', 'cc'];
+		$dw.tr(
+			a.inspect(),
+			a.toString(),
+			Object.prototype.toString.call(a),
+			String(Object.isArray(a)),
+			String(Object.isFunction(a))
+		);
+
+		var j = {a:'aa', b:'bb', c:'cc'};
+		$dw.tr(
+			Object.toJSON(j),
+			j.toString(),
+			Object.prototype.toString.call(j),
+			String(Object.isArray(j)),
+			String(Object.isFunction(j))
+		);
+
+		var f = function(msg) { console.log(msg); };
+		$dw.tr(
+			f,
+			f.toString(),
+			Object.prototype.toString.call(f),
+			String(Object.isArray(f)),
+			String(Object.isFunction(f))
+		);
+		
+		$dw('</table>');
+	})();
+	</script>
+</body>
+
+</html>
