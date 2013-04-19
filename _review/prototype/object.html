@@ -1,5 +1,12 @@
 <html>
 
+<head>
+<style type="text/css">
+table { font-size: 12px; }
+td { padding: 0px 10px 0px 10px; }
+</style>
+</head>
+
 <body>
 	<script type="text/javascript" src="../js/prototype.js"></script>
 	<script type="text/javascript" src="../js/writer.js"></script>
@@ -63,40 +70,111 @@
 	})();
 
 	(function() {
-		$dw.h4('Object.isArray(), Object.isFunction()');
+		// TODO test Object.isHash() when I go through the hash.js
+		function tr(obj) {
+			$dw.tr.apply($dw, [
+				obj.toString(),
+				Object.prototype.toString.call(obj),
+				typeof obj,
+				String(Object.isArray(obj)),
+				String(Object.isDate(obj)),
+				String(Object.isElement(obj)),
+				String(Object.isFunction(obj)),
+				String(Object.isNumber(obj)),
+				String(Object.isString(obj)),
+				String(Object.isUndefined(obj))
+			]);
+		}
+
+		$dw.h4('Object.isXxx()');
+
+		var a = ['aa', 'bb', 'cc'],
+			d = new Date(),
+			e = document.createElement('div'),
+			f = function(msg) { console.log(msg); },
+			n = 123,
+			s = 'abc';
 
 		$dw('<table>');
 
-		$dw.tr('details', 'toString', 'Object.prototype.toString.call', 'isArray', 'isFunction', true);
-
-		var a = ['aa', 'bb', 'cc'];
 		$dw.tr(
-			a.inspect(),
-			a.toString(),
-			Object.prototype.toString.call(a),
-			String(Object.isArray(a)),
-			String(Object.isFunction(a))
-		);
-
-		var j = {a:'aa', b:'bb', c:'cc'};
-		$dw.tr(
-			Object.toJSON(j),
-			j.toString(),
-			Object.prototype.toString.call(j),
-			String(Object.isArray(j)),
-			String(Object.isFunction(j))
-		);
-
-		var f = function(msg) { console.log(msg); };
-		$dw.tr(
-			f,
-			f.toString(),
-			Object.prototype.toString.call(f),
-			String(Object.isArray(f)),
-			String(Object.isFunction(f))
+			'toString',
+			'Object.prototype.toString.call',
+			'typeof',
+			'isArray',
+			'isDate',
+			'isElement',
+			'isFunction',
+			'isNumber',
+			'isString',
+			'isUndefined',
+			true
 		);
 		
+		tr(a);
+		tr(d);
+		tr(e);
+		tr(f);
+		tr(n);
+		tr(s);
+
 		$dw('</table>');
+	})();
+
+	(function() {
+		$dw.h4('Object.keys(), Object.values()');
+
+		var obj = { a:'aa', b:'bb', c:'cc'};
+		$dw.br('obj = ' + Object.toJSON(obj));
+		$dw.br('keys: ' + Object.keys(obj));
+		$dw.br('values: ' + Object.values(obj));
+	})();
+
+	(function() {
+		$dw.h4('Object.toJSON()');
+
+		var json = { name: 'Prototype', version: '1.7.1.0' };
+		$dw.br('without toJSON(): ' + Object.toJSON(json));
+
+		json.toJSON = function() {
+			return {
+				name: this.name,
+				version: this.version,
+				date: new Date()
+			};
+		};
+		$dw.br('json.toJSON = ' + json.toJSON.toString());
+		$dw.br('with toJSON(): ' + Object.toJSON(json));
+	})();
+
+	(function() {
+		$dw.h4('Object.toQueryString()');
+
+		var query = { eeId: 1, mail: 'welcome' };
+		$dw.br('var query = ' + Object.toJSON(query));
+		$dw.br('toQueryString: ' + Object.toQueryString(query));
+	})();
+
+	(function() {
+		$dw.h4('Object.toHTML()');
+
+		var n = 123,
+			s = 'abc',
+			f = function(item) { console.log(item); },
+			j = { a:'aa', b:'bb' };
+
+		$dw.br('n = ' + n + ', toHTML: ' + Object.toHTML(n));
+		$dw.br('s = ' + s + ', toHTML: ' + Object.toHTML(s));
+		$dw.br('f = ' + f + ', toHTML: ' + Object.toHTML(f));
+		$dw.br('j = ' + j + ', toHTML: ' + Object.toHTML(j));
+
+		var obj = { href: 'http://localhost:8080', text: 'Something' };
+		Object.extend(obj, {
+			toHTML: function() {
+				return "<a href='" + this.href + "'>" + this.text + "</href>";
+			}
+		});
+		$dw.br('obj = ' + Object.toJSON(obj) + ', toHTML: ' + Object.toHTML(obj));
 	})();
 	</script>
 </body>
