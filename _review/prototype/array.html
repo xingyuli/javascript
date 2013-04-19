@@ -13,33 +13,33 @@
 		$dw.h4('Array.clear()')
 		   .br('before: ' + ar.inspect())
 		   .br('after:' + ar.clear().inspect());
+	})();
 
-		/* ***************************************************************** */
-
+	(function() {
 		var toCompact = [ undefined, 'a', undefined, 'b', null, 'c' ];
 		$dw.h4('Array.compact()')
 		   .br('before: toCompact = ' + toCompact.inspect());
 		var compacted = toCompact.compact();
 		$dw.br('after: toCompact = '+ toCompact.inspect() + ', compacted: ' + compacted.inspect());
+	})();
 
-		/* ***************************************************************** */
-
+	(function() {
 		var nested = ['a', ['b', 'c', ['d', 'e']], ['f', 'g', 'h']];
 		$dw.h4('Array.flatten()')
 		   .br('before: nested = ' + nested.inspect());
 		var flattened = nested.flatten();
 		$dw.br('after: nested = ' + nested.inspect() + ', flattened = ' + flattened.inspect());
+	})();
 
-		/* ***************************************************************** */
-
+	(function() {
 		var toExclude = [1, 2, 3, 4, 5];
 		$dw.h4('Array.without(value[, value...])')
 		   .br('before: toExclude = ' + toExclude.inspect());
 		var excluded = toExclude.without(1, 3, 5);
 		$dw.br('after: toExclude = ' + toExclude.inspect() + ', excluded = ' + excluded.inspect());
+	})();
 
-		/* ***************************************************************** */
-
+	(function() {
 		$dw.h4('Array.reverse([inline = true])');
 
 		var toReverse = ['a', 'b', 'c', 'd', 'e'];
@@ -53,9 +53,9 @@
 		   .br('before: toReverse = ' + (toReverse = ['aaa', 'bbb', 'ccc', 'ddd']).inspect());
 		var reversedInline = toReverse.reverse();
 		$dw.br('after: toReverse = ' + toReverse.inspect() + ', reversed = ' + reversedInline.inspect());
+	})();
 
-		/* ***************************************************************** */
-
+	(function() {
 		$dw.h4('Array.map(iterator[, context])');
 		var toMap = [1, 2, 3, 4, 5];
 		var mapped = toMap.map(function(item, index, all) {
