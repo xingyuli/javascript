@@ -1,0 +1,142 @@
+<html>
+<body>
+	<script type="text/javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" src="../js/writer.js"></script>
+	<script type="text/javascript">
+	(function() {
+		$dw.h4('Function#argumentNames()');
+
+		function test(item, index) {
+			console.log('item = ' + item + ', index = ' + index);
+		}
+		$dw.br(test.toString());
+		$dw.br('argumentNames: ' + test.argumentNames());
+	})();
+
+	(function() {
+		$dw.h4('Function#bind');
+
+		var MyClass = Class.create({
+			initialize: function() {
+				this.data = Array.prototype.slice.call(arguments, 0);
+			},
+			select: function(index) {
+				return this.data[index];
+			}
+		});
+
+		var obj = new MyClass('aa', 'bb', 'cc');
+		$dw.br('Object.toJSON(obj): ' + Object.toJSON(obj));
+		$dw.br('without bind: obj.select(1) = ' + obj.select(1));
+
+		var dataStore = {
+			data: [ 'one', 'two', 'three', 'four', 'five' ]
+		};
+		$dw.br().br('dataStore: ' + Object.toJSON(dataStore));
+
+		var bindToDataStore = obj.select.bind(dataStore);
+		$dw.br('bind to dataStore: obj.select(1) = ' + bindToDataStore(1));
+
+		var bindToTheFourthOfDataStore = obj.select.bind(dataStore, 3);
+		$dw.br('bind to the fourth of dataStore: ' + bindToTheFourthOfDataStore());
+
+		/* ***************************************************************** */
+
+		$dw.h5('test case provided by Prototype');
+		var AlertOnClick = Class.create({
+			initialize: function(msg) {
+				this.msg = msg;
+			},
+			handleClick: function(event) {
+				event.stop();
+				alert('this: ' + this + '\nthis.msg: ' + this.msg);
+			}
+		});
+
+		var myAlert = new AlertOnClick('Clicked!');
+
+		var foo = document.createElement('input');
+		foo.setAttribute('id', 'foo');
+		foo.setAttribute('type', 'button');
+		foo.setAttribute('value', 'Click Me, but I will not work :(');
+
+		var bar = document.createElement('input');
+		bar.setAttribute('id', 'bar');
+		bar.setAttribute('type', 'button');
+		bar.setAttribute('value', 'Click Me, and I do work properly :)');
+
+		document.body.appendChild(foo);
+		$dw.br();
+		document.body.appendChild(bar);
+		
+		// By default, 'this' refers to the dom where the event happens
+		$('foo').observe('click', myAlert.handleClick);
+		$('bar').observe('click', myAlert.handleClick.bind(myAlert));
+	})();
+
+	(function() {
+		$dw.h4('Function#curry()');
+
+		function concat(dest, src) {
+			return String(dest) + String(src);
+		}
+
+		$dw.br('concat("abc", "xyz"): ' + concat('abc', 'xyz'));
+
+		var concatToXingyuli = concat.curry('xingyuli');
+		$dw.br('concatToXingyuli("nsn"): ' + concatToXingyuli('nsn'));
+	})();
+
+	(function() {
+		if (!confirm('Want to test Function#defer() and Function#delay()?')) return;
+
+		function print(msg) {
+			alert(msg);
+		}
+
+		$dw.h4('Function#defer()');
+		print('Today');
+		print.defer('#defer(): very well!');
+		print('is');
+
+		$dw.h4('Function#delay()');
+		print.delay(3, '#delay(): 3 seconds passed...');
+	})();
+
+	(function() {
+		$dw.h4('Function#methodize()');
+
+		function setName(target, name) {
+			target.name = name;
+		}
+		function getName(target) {
+			return target.name;
+		}
+
+		var obj = {
+			setName: setName.methodize(),
+			getName: getName.methodize()
+		};
+
+		obj.setName('myname');
+		$dw.br('Objec.toJSON(obj): ' + Object.toJSON(obj));
+		$dw.br('obj.getName(): ' + obj.getName());
+	})();
+
+	(function() {
+		$dw.h4('Function#wrap()');
+
+		function fa() {
+			$dw.br('fa is called');
+		}
+		fa();
+
+		fa = fa.wrap(function(callOriginal) {
+			callOriginal();
+			$dw.br('<-- callded via fa.wrap()!!!');
+		});
+		fa();
+	})();
+	</script>
+</body>
+</html>
