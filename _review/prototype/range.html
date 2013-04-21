@@ -1,0 +1,39 @@
+<html>
+
+<body>
+	<script type="text/javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" src="../js/writer.js"></script>
+	<script type="text/javascript">
+	(function() {
+		$dw.h4('$R(start, end, exclusive)')
+		   .br('$R(1, 10): ' + $A($R(1, 10)).inspect())
+		   .br('$R(1, 10, true): ' + $A($R(1, 10, true)).inspect())
+		   .br('$R("a", "e"): ' + $A($R('a', 'e')).inspect())
+		   .br('$R("a", "e", true): ' + $A($R('a', 'e', true)).inspect());
+
+		function add() {
+			var sum = 0;
+			$A(arguments).each(function(item) {
+				sum += item;
+			});
+			return sum;
+		}
+		$dw.br()
+		   .br('add: ' + add.toString())
+		   .br('add.apply(null, $A($R(1, 10))): ' + add.apply(null, $A($R(1, 10))));
+	})();
+
+	(function() {
+		var range = $R(1, 10);
+
+		$dw.h4('ObjectRange#include()')
+		   .br('$A(range).inspect(): ' + $A(range).inspect())
+		   .br('Object.toJSON(range): ' + Object.toJSON(range))
+		   .br('include 10: ' + range.include(10))
+		   .br('start: ' + range.start)
+		   .br('end: ' + range.end);
+	})();
+	</script>
+</body>
+
+</html>
