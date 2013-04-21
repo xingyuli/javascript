@@ -85,6 +85,13 @@
 
 		var concatToXingyuli = concat.curry('xingyuli');
 		$dw.br('concatToXingyuli("nsn"): ' + concatToXingyuli('nsn'));
+
+		function addNbrs(arg0, arg1, arg2, arg3) {
+			return arg0 + arg1 + arg2 + arg3;
+		}
+		$dw.h5('chained curry')
+		   .br('addNbrs: ' + addNbrs.toString())
+		   .br('addNbrs.curry(1).curry(2).curry(3).curry(4)(): ' + addNbrs.curry(1).curry(2).curry(3).curry(4)());
 	})();
 
 	(function() {
