@@ -1,0 +1,60 @@
+<html>
+<body>
+	<script type="text/javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" src="../js/writer.js"></script>
+	<script type="text/javascript">
+	(function() {
+		$dw.h4('Number#succ()')
+		   .br('(-1).succ(): ' + (-1).succ())
+		   .br('(4).succ(): ' + (4).succ());
+	})();
+
+	(function() {
+		$dw.h4('Number#toColorPart()')
+		   .br('(0).toColorPart(): ' + (0).toColorPart())
+		   .br('(255).toColorPart(): ' + (255).toColorPart());
+	})();
+
+	(function() {
+		$dw.h4('Number#toPaddedString(length[, radix])')
+		   .br('(10).toPaddedString(3): ' + (10).toPaddedString(3))
+		   .br('(10).toPaddedString(3, 2): ' + (10).toPaddedString(3, 2));
+	})();
+
+	(function() {
+		function print(stuff) {
+			$dw.br('item' + String(stuff));
+		}
+
+		$dw.h4('Number#times(iterator[, context])')
+		   .h5('(4).times(print)')
+		   .br('print: ' + print.toString())
+		   .br();
+		(4).times(print);
+
+		$dw.h5('(3).times($dw.b)');
+		(3).times($dw.b);
+	})();
+
+	(function() {
+		$dw.h4('Delegate to Math.xxx(this)')
+		
+		$dw.h5('Number#abs()')
+		   .br('(5).abs(): ' + (5).abs())
+		   .br('(-5).abs(): ' + (-5).abs())
+		
+		$dw.h5('Number#round()')
+		   .br('(1.234).round(): ' + (1.234).round())
+		   .br('(-1.234).round(): ' + (-1.234).round());
+
+		$dw.h5('Number#ceil()')
+		   .br('(1.234).ceil(): ' + (1.234).ceil())
+		   .br('(-1.234).ceil(): ' + (-1.234).ceil());
+
+		$dw.h5('Number#floor()')
+		   .br('(1.234).floor(): ' + (1.234).floor())
+		   .br('(-1.234).floor(): ' + (-1.234).floor());
+	})();
+	</script>
+</body>
+</html>
