@@ -1,0 +1,64 @@
+<html>
+<body>
+	<script type="text/javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" src="../js/writer.js"></script>
+	<script type="text/javascript">
+	var MyElement = Class.create({
+		initialize: function(id, name, status) {
+			this.id = id;
+			this.name = name;
+			this.status = status;
+		},
+		getId: function() {
+			return this.id;
+		},
+		getName: function() {
+			return this.name;
+		}
+	});
+	var e1 = new MyElement(1, 'element1');
+
+	(function() {
+		$dw.h4('Class.create()');
+
+		$dw.h5('properties of MyElement');
+		for (var prop in MyElement) {
+			$dw.br('MyElement.' + prop + ' = ' +MyElement[prop]);
+		}
+
+		$dw.h5('properties of MyElement.prototype');
+		for (var prop in MyElement.prototype) {
+			$dw.br('MyElement.prototype.' + prop + ' = ' +MyElement.prototype[prop]);
+		}
+
+		$dw.h5('invoking methods');
+		$dw.br('Object.toJSON(e1): ' + Object.toJSON(e1));
+		$dw.br('e1.getId() = ' + e1.getId() + ', e1.getName() = ' + e1.getName());
+	})();
+
+	(function() {
+		$dw.h4('Class#addMethods()');
+
+		MyElement.addMethods({
+			getStatus: function() {
+				return this.status || '';
+			}
+		});
+		e1.status = 'ACTIVE';
+		$dw.br('getStatus() added: e1.getStatus() = ' + e1.getStatus());
+
+		var ElementChild = Class.create(MyElement, {
+			initialize: function($super) {
+				$super.apply(this, Array.prototype.slice.call(arguments, 1));
+				this.version = '1.0.0.1';
+			},
+			getName: function($super) {
+				return $super() + ' under version ' + this.version;
+			}
+		});
+		var ec1 = new ElementChild('2', 'elementChild1');
+		$dw.br('getName() overrided: ec1.getName() = ' + ec1.getName());
+	})();
+	</script>
+</body>
+</html>
