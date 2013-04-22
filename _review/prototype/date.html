@@ -1,0 +1,19 @@
+<html>
+
+<body>
+	<script type="text/javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" src="../js/writer.js"></script>
+	<script type="text/javascript">
+	(function() {
+		var d = new Date();
+
+		$dw.h4('Date#toISOString(), Date#toJSON()')
+		   .br('d.toString(): ' + d.toString())
+		   .br('Object.prototype.toString.call(d): ' + Object.prototype.toString.call(d))
+		   .br('d.toISOString(): ' + d.toISOString())
+		   .br('d.toJSON(): ' + d.toJSON());
+	})();
+	</script>
+</body>
+
+</html>
