@@ -1,0 +1,112 @@
+<html>
+<body>
+	<script type="text/javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" src="../js/writer.js"></script>
+	<script type="text/javascript">
+	/**
+	 * TODO figure out the meaning of Hash.inject, Hash.map
+	**/
+	(function() {
+		$dw.h4('Hash#clone(), Hash#toObject(), Hash#toJSON(), Hash#toTemplateReplacements()');
+
+		var h = $H({ a: 'aa', b: 'bb' });
+		$dw.br('h: ' + Object.toJSON(h.toObject()));
+
+		var h2 = h.clone();
+		h2.set('c', 'cc');
+		$dw.h4('after clone ...')
+		   .br('h2: ' + Object.toJSON(h2.toObject()))
+		   .br('h: ' + Object.toJSON(h.toObject()));
+	})();
+
+	(function() {
+		$dw.h4('Hash#set(key, value), Hash#get(key), Hash#unset(key)');
+
+		var h = $H({ a: 'aa', b: 'bb' });
+		$dw.br('h: ' + Object.toJSON(h.toObject()));
+
+		h.set('a', 'aa-modified');
+		$dw.br('after h.set("a", "aa-modified"): ' + Object.toJSON(h.toObject()))
+		   .br('h.get("a"): ' + h.get('a'));
+
+		h.unset('b');
+		$dw.br('after h.unset("b"): ' + Object.toJSON(h.toObject()));
+	})();
+
+	(function() {
+		var h = $H({ a: 'aa', b: 'bb', c: 'cc' });
+
+		$dw.h4('Hash#each(iterator[, context])');
+
+		var debugs = [];
+		h.each(function(pair, index) {
+			debugs.push(index + ': key = ' + pair.key + ', value = ' + pair.value);
+		});
+		debugs.each(function(debug) {
+			$dw.br(debug);
+		});
+	})();
+
+	(function(){
+		$dw.h4('Hash#index(value)');
+
+		var h = $H({one: 'aaa', two: 'bbb', three: 'ccc', four: 'ddd'});
+		$dw.br('h: ' + Object.toJSON(h.toObject()))
+		   .br('h.index("aaa"): ' + h.index('aaa'))
+		   .br('h.index("notexisted"): ' + h.index('notexisted'));
+	})();
+
+	(function() {
+		$dw.h4('Hash#keys(), Hash#values()');
+
+		var h = $H({one: 'aaa', two: 'bbb', three: 'ccc', four: 'ddd'});
+		$dw.br('Object.toJSON(h.toObject()): ' + Object.toJSON(h.toObject()))
+		   .br('h.keys(): ' + h.keys())
+		   .br('h.values(): ' + h.values());
+	})();
+
+	(function() {
+		$dw.h4('Hash#merge(object|Hash), Hash#update(object|Hash)');
+
+		var h = $H({one: '111'});
+		var o = { two: '222' };
+
+		$dw.br('h: ' + Object.toJSON(h.toObject()))
+		   .br('o: ' + Object.toJSON(o));
+
+		var m = h.merge(o);
+		$dw.b('var m = h.merge(o);')
+		   .nbsp(4).dw('m: ' + Object.toJSON(m.toObject()))
+		   .nbsp(4).dw('h: ' + Object.toJSON(h.toObject()))
+		   .nbsp(4).dw('o: ' + Object.toJSON(o))
+		   .br();
+
+		var u = h.update(o);
+		$dw.b('var u = h.update(o);')
+		   .nbsp(4).dw('u: ' + Object.toJSON(u.toObject()))
+		   .nbsp(4).dw('h: ' + Object.toJSON(h.toObject()))
+		   .nbsp(4).dw('o: ' + Object.toJSON(o))
+		   .br();
+	})();
+
+	(function() {
+		$dw.h4('Hash#inspect()');
+
+		var h = $H({1: 'January', 2: 'Feburary', 3: 'March'});
+		console.log(h.inspect());
+
+		$dw.br('h: ' + Object.toJSON(h.toObject()))
+		   .b('Please see the h.inspect() information in console.')
+		   .br();
+	})();
+
+	(function() {
+		$dw.h4('Hash#toQueryString()');
+
+		var h = $H({id: 10, category: 'Watch', madeIn: 'BeiJing'});
+		$dw.br('h: ' + Object.toJSON(h.toObject()))
+		   .br('h.toQueryString(): ' + h.toQueryString());
+	})();
+	</script>
+</body>
+</html>
