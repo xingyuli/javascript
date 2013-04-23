@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<script type="text/javascript" src="../js/prototype.js"></script>
+		<script type="text/javascript" src="../js/writer.js"></script>
+		<script type="text/javascript">
+		(function() {
+			$dw.h4('Template#evaluate(object)');
+
+			var myTemplate = new Template('The TV show #{title} was created by #{author}.');
+			var show = {
+				title: 'The Simpsons',
+				author: 'Matt Groening',
+				network: 'FOX'
+			};
+
+			$dw.br(myTemplate.evaluate(show));
+
+			/* ************************************************************* */
+
+			// creating a few similar objects
+			var conversion1 = { from: 'meters', to: 'feet', factor: 3.28 };
+			var conversion2 = { from: 'kilojoules', to: 'BTUs', factor: 0.9478 };
+			var conversion3 = { from: 'megabytes', to: 'gigabytes', factor: 1024 };
+
+			// the template
+			var templ = new Template('Multiply by #{factor} to convert from #{from} to #{to}.');
+
+			$dw.br();
+
+			// let's format each object
+			[conversion1, conversion2, conversion3].each(function(conv) {
+				$dw.br(templ.evaluate(conv));
+			});
+
+			/* ************************************************************* */
+
+			var t = new Template('in #{lang} we also use the \\#{variable}');
+			var data = { lang: 'Ruby', variable: 'not_used' };
+			$dw.br().br(t.evaluate(data));
+
+			/* ************************************************************* */
+
+			var root = {
+				order: {
+					stuff: 'Java for Dummy',
+					count: 3,
+					date: new Date(2013, 0, 1).toLocaleString()
+				},
+				customer: {
+					name: 'God Boy'
+				}
+			};
+
+			var nestedTempl1 = new Template(
+				'#{customer.name} bought #{order.count} #{order.stuff} on #{order.date}.'
+			);
+			$dw.br().br(nestedTempl1.evaluate(root));
+		})();
+
+		(function() {
+			$dw.h4('new Template(template[, pattern])');
+
+			var syntax = /(^|.|\r|\n)(\$(\w+))/;
+			$dw.br('syntax: ' + syntax)
+			   .br('typeof syntax: ' + typeof syntax)
+			   .br('Object.prototype.toString.call(syntax): ' + Object.prototype.toString.call(syntax));
+
+			var person = {
+				name: 'Liu Xingyu',
+				hobby: 'programming'
+			};
+
+			var templ = new Template('Hello, everybody! My name is $name, and I love $hobby very much!', syntax);
+			$dw.br(templ.evaluate(person));
+		})();
+		</script>		
+	</body>
+</html>
