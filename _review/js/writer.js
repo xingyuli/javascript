@@ -131,6 +131,12 @@
 	function h5(innerHTML) { nodeRender('h5', innerHTML); return this; }
 	function h6(innerHTML) { nodeRender('h6', innerHTML); return this; }
 
+	function nbsp(times) {
+		times = times || 1;
+		while (times--) $dw('&nbsp;');
+		return this;
+	}
+
 	/**
 	 * $dw.br(lineHTML) -> $dw
 	 * - lineHTML (string)
@@ -228,12 +234,29 @@
 		h4: h4,
 		h5: h5,
 		h6: h6,
+		nbsp: nbsp,
 		br: br,
 		p: p,
 		b: b,
 		tr: tr,
 		th: th,
-		td: td
+		td: td,
+
+		/**
+		 * Reference to $dw itself to improve the code's readabiliy.
+		 * 
+		 * For example:
+		 *
+		 *     $dw.br('A new line')
+		 *        .dw('text right after the previous line');
+		 *     $dw.nbsp(4)
+		 *        .dw('Sun shiny day!');
+		 * 
+		 * is better than
+		 *     $dw.br('A new line')('text right after the previous line');
+		 *     $dw.nbsp(4)('Sun shiny day!');
+		**/
+		dw: $dw	
 	});
 
 	window.$dw = $dw;
