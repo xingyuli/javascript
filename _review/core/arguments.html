@@ -1,0 +1,26 @@
+<html>
+
+<body>
+	<script type="text/javascript" src="../js/writer.js"></script>
+	<script type="text/javascript">
+	(function() {
+		$dw.h4('arguments.callee');
+
+		(function testArgumentsCallee() {
+			$dw.br('arguments.callee.toString(): ' + arguments.callee.toString());
+		})();
+	})();
+
+	(function() {
+		$dw.h4('arguments.length');
+
+		(function testArgumentsLength(arg0, arg1, arg2) {
+			$dw.br('arg0 = ' + arg0 + ', arg1 = ' + arg1 + ', arg2 = ' + arg2)
+			   .br('arguments.callee.length: ' + arguments.callee.length)
+			   .br('arguments.length: ' + arguments.length);
+		})(1, 2, 3, 4, 5);
+	})();
+	</script>
+</body>
+
+</html>
