@@ -70,7 +70,6 @@ td { padding: 0px 10px 0px 10px; }
 	})();
 
 	(function() {
-		// TODO test Object.isHash() when I go through the hash.js
 		function tr(obj) {
 			$dw.tr.apply($dw, [
 				obj.toString(),
@@ -80,6 +79,7 @@ td { padding: 0px 10px 0px 10px; }
 				String(Object.isDate(obj)),
 				String(Object.isElement(obj)),
 				String(Object.isFunction(obj)),
+				String(Object.isHash(obj)),
 				String(Object.isNumber(obj)),
 				String(Object.isString(obj)),
 				String(Object.isUndefined(obj))
@@ -92,6 +92,7 @@ td { padding: 0px 10px 0px 10px; }
 			d = new Date(),
 			e = document.createElement('div'),
 			f = function(msg) { console.log(msg); },
+			h = $H({one: 111, two: 222}),
 			n = 123,
 			s = 'abc';
 
@@ -105,6 +106,7 @@ td { padding: 0px 10px 0px 10px; }
 			'isDate',
 			'isElement',
 			'isFunction',
+			'isHash',
 			'isNumber',
 			'isString',
 			'isUndefined',
@@ -115,6 +117,7 @@ td { padding: 0px 10px 0px 10px; }
 		tr(d);
 		tr(e);
 		tr(f);
+		tr(h);
 		tr(n);
 		tr(s);
 
