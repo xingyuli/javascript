@@ -1,0 +1,310 @@
+<html>
+	<head>
+		<title>Handlebars Demo</title>
+		<script type="text/javascript" src="../js/handlebars-1.0.0-rc.3.js"></script>
+	</head>
+	<body>
+		<script id="basic-template" type="text/x-handlebars-template">
+			<h1>{{ title }}</h1>
+			<div class="body">
+			    {{ body }}
+			</div>
+		</script>
+		<script type="text/javascript">
+		(function() {
+			var source = document.getElementById("basic-template").innerHTML;
+			var template = Handlebars.compile(source);
+
+			var context = { title: "My New Post", body: "This is my first post!" };
+			var html = template(context);
+
+			document.write(html);
+		})();
+		</script>
+
+		<!-- For simplicity, we use renderTemplate to render in following demos -->
+		<script type="text/javascript">
+		function renderTemplate(sourceId, context) {
+			var sourceDom = document.getElementById(sourceId);
+			if (sourceDom) {
+				var template = Handlebars.compile(sourceDom.innerHTML);
+				document.write(template(context || {}));
+			}
+		}
+		</script>
+
+		<script id="custom-helper-link" type="text/x-handlebars-template">
+			{{ link text url }}
+		</script>
+		<script type="text/javascript">
+		(function() {
+			Handlebars.registerHelper("link", function(text, url) {
+				text = Handlebars.Utils.escapeExpression(text);
+				url = Handlebars.Utils.escapeExpression(url);
+
+				/*
+				 * Handlebars will not escape a Handlebars.SafeString. If you
+				 * write a helper that generates its own HTML, you will usually
+				 * want to return a new Handlebars.SafeString(result).
+				 *
+				 * In such a cirsumstance, you will want to manually escape
+				 * parameters.
+				 */
+				return new Handlebars.SafeString('<a href="' + url + '">' + text +'</a>');
+			});
+
+			renderTemplate(
+				"custom-helper-link",
+				{ url: "javascript:void(0);", text: "Javascript Protocol" }
+			);
+		})();
+		</script>
+
+		<script id="custom-block-helper-list" type="text/x-handlebars-template">
+			{{#list people}}
+			    {{firstName}} {{lastName}}
+			{{/list}}
+		</script>
+		<script type="text/javascript">
+		(function() {
+			Handlebars.registerHelper("list", function(items, options) {
+				var out = "<ul>";
+
+				/*
+				 * options.fn is a function which stands for the block
+				 * expression inside {{#list ???}} ... {{/list}}
+				 * 
+				 * Since the contents of a block helper are escaped when you
+				 * call options.fn(context), Handlebars does not escape the
+				 * results of a block helper.
+				 */
+				for (var i = 0, len = items.length; i < len; i++) {
+					out += "<li>" + options.fn(items[i]) + "</li>";
+				}
+				return out + "</ul>";
+			});
+
+			renderTemplate(
+				"custom-block-helper-list",
+				{
+					people: [
+						{firstName: "Yehuda", lastName: "Katz"},
+						{firstName: "Carl", lastName: "Lerche"},
+						{firstName: "Alan", lastName: "Johnson"}
+					]
+				}
+			);
+		})();
+		</script>
+
+		<script id="built-in-block-helper-with" type="text/x-handlebars-template">
+			{{#with author}}
+			<h2>By {{firstName}} {{lastName}}</h2>
+			{{/with}}
+		</script>
+		<script type="text/javascript">
+		(function() {
+			renderTemplate(
+				"built-in-block-helper-with",
+				{
+					author: { firstName: "Charles", lastName: "Jolley" }
+				}
+			);
+		})();
+		</script>
+
+		<script id="built-in-block-helper-each" type="text/x-handlebars-template">
+			<ul class="people_list">
+				{{#each people}}
+				<li>{{this}}</li>
+				{{/each}}
+			</ul>
+		</script>
+		<script type="text/javascript">
+		(function() {
+			renderTemplate(
+				"built-in-block-helper-each",
+				{
+					people: [ "Yehuda Katz", "Alan Johnson", "Charles Jolley" ]
+				}
+			);
+		})();
+		</script>
+
+		<script id="built-in-block-helper-if-else" type="text/x-handlebars-template">
+			{{! only output this author names if an author exists }}
+			<!-- This comment will be in the output -->
+		    {{#if author}}
+			<h1>{{author.firstName}}  {{author.lastName}}</h1>
+			{{/if}}
+		</script>
+		<script type="text/javascript">
+		(function() {
+			/*
+			 * You can use the if helper to conditionally render a block. If
+			 * its argument returns false, undefined, null, "" or [] (a "falsy"
+			 * value), Handlebars will not render the block.
+			 */
+
+			renderTemplate(
+				"built-in-block-helper-if-else",
+				{
+					author: { firstName: "Charles", lastName: "Jolley" }
+				}
+			);
+		})();
+		</script>
+
+		<script id="built-in-block-helper-unless" type="text/x-handlebars-template">
+			{{#unless license}}
+			<h3 class="warning">WARNING: This entry does not have a license!</h3>
+			{{/unless}}
+		</script>
+		<script type="text/javascript">
+		(function() {
+			/*
+			 * You can use the unless helper as the inverse of the if helper.
+			 * Its block will be rendered if the expression returns a falsy
+			 * value.
+			 */
+
+			renderTemplate("built-in-block-helper-unless", {});
+		})();
+		</script>
+
+		<script id="handlebars-paths" type="text/x-handlebars-template">
+			{{! simple paths }}
+			<h1>{{title}}</h1>
+
+			{{! nested paths }}
+			<h2>By {{author.name}}</h2>
+
+			<div class="body">
+			    {{body}}
+			</div>
+
+			{{!
+				nested paths can also include "../" segments,
+				which evalute their paths against a parent context
+			}}
+			<h1>Comments</h1>
+			<div id="comments">
+			    {{#each comments}}
+			    {{!
+			    	Even though the link is printed while in the context of a
+			    	comment, it can still go back to the main context to
+			    	retrieve its permalink.
+
+			    	The "../" path segment references the parent template
+			    	scope, not one level up in the context. This is because
+			    	block helpers can invoke a block with any context, so the
+			    	notion of "one level up" is not particularly meaningful
+			    	except as a reference to to parent template scope.
+
+			    	That means, take the following code as an example:
+
+			    	"../" refers to the parent of comments, which is the root
+			    	context.
+			    	
+			    	It does not refer to the parent of current context(i.e.,
+			    	the current comment iterated at this time), which is the
+			    	comments itself.
+			    }}
+			    <h2><a href="/post/{{../permalink}}#{{id}}">{{title}}</a></h2>
+			    {{/each}}
+			</div>
+		</script>
+		<script type="text/javascript">
+		(function() {
+			renderTemplate(
+				"handlebars-paths",
+				{
+					title: "My First Blog Post!",
+					body: "My First post. Wheeeee!",
+
+					author: { id: 47, name: "Yehuda Katz" },
+
+					permalink: "this_is_perma",
+					comments: [
+						{id: 1, title: "Title of Comments 1"},
+						{id: 2, title: "Title of Comments 2"},
+						{id: 3, title: "Title of Comments 3"}
+					]
+				}
+			);
+		})();
+		</script>
+
+		<script id="handlebars-helpers" type="text/x-handlebars-template">
+			<div class="post">
+				<h1>By {{fullname author}}</h1>
+				<div class="body">{{body}}<div>
+
+				<h1>Comments</h1>
+
+				{{!
+					Handlebars helpers can be accessed from any context in a
+					template. You can register a helper with the
+
+					    Handlebars.registerHelper
+
+					method.
+				}}
+				{{#each comments}}
+				<h2>By {{fullname author}}</h2>
+				<div class="body">{{body}}<div>
+				{{/each}}
+			</div>
+
+			<ul>
+			    {{#each items}}
+			    {{!
+			    	Helpers receive the current context as the this context of
+			    	the function.
+
+			    	That means the "this" keyword in the helper function will
+			    	point to the item that currently iterated on.
+			   	}}
+			    <li>{{agree_button}}</li>
+			    {{/each}}
+			</ul>
+		</script>
+		<script type="text/javascript">
+		(function() {
+			Handlebars.registerHelper("fullname", function(person) {
+				return person.firstName + " " + person.lastName;
+			});
+
+			Handlebars.registerHelper("agree_button", function() {
+				/*
+				 * If your helper returns HTML that you don't want escaped,
+				 * make sure to return a new Handlebars.SafeString
+				 */
+				return new Handlebars.SafeString(
+					"<button>I agree. I " + this.emotion + " " + this.name + "</button>"
+				);
+			});
+
+			renderTemplate(
+				"handlebars-helpers",
+				{
+					author: {firstName: "Alan", lastName: "Johnson"},
+					body: "I Love Handlebars",
+					comments: [
+						{
+							author: {firstName: "Yehuda", lastName: "Katz"},
+							body: "Me too!"
+						}
+					],
+
+					items: [
+						{name: "Handlebars", emotion: "love"},
+					    {name: "Mustache", emotion: "enjoy"},
+					    {name: "Ember", emotion: "want to learn"}
+					]
+				}
+			);
+		})();
+		</script>
+	</body>
+</html>

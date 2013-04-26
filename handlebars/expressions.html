@@ -1,0 +1,65 @@
+<html>
+
+<head>
+	<script type="text/javascript" src="../js/handlebars-1.0.0-rc.3.js"></script>
+</head>
+
+<body>
+	<script id="expressions" type="text/x-handlebars-template">
+	{{!
+		To reference a property that is not a valid identifier, you can use
+		segment-literal notation:
+	}}
+	{{#each articles.[10].comments}}
+	    <h1>{{subject}}</h1>
+	    <div>
+	        {{body}}
+	    </div>
+	{{/each}}
+
+	{{!
+		Handlebars helpers can also receive an optional sequence of key-value
+		pairs as their final parameter (referred to as hash arguments in the
+		documentation).
+
+		The keys in hash arguments must be simple identifiers, and the values
+		are Handlebars expressions. This means that values can be simple
+		identifiers, paths, or Strings.
+	}}
+	{{link "See more..." href=story.url class="story"}}
+	</script>
+	<script type="text/javascript">
+	(function() {
+		// Handlebars provides additional metadata, such as Hash arguments, to
+		// helpers as a final parameter.
+		Handlebars.registerHelper("link", function(text, options) {
+			var attrs = [];
+
+			for (var prop in options.hash) {
+				attrs.push(prop + '="' + options.hash[prop] + '"');
+			}
+
+			return new Handlebars.SafeString(
+				"<a " + attrs.join(" ") + ">" + text + "</a>"
+			);
+		});
+
+		var source = document.getElementById("expressions").innerHTML;
+		var template = Handlebars.compile(source);
+
+		var articles = [];
+		articles[10] = {
+			comments: [
+				{subject: "Thank you!", body: "Really appreciated about this."},
+				{subject: "T T! ", body: "Cannot help reading this post once again."}
+			]
+		};
+		document.write(template({
+			articles: articles,
+			story: {url:"javascript:void(0);"}
+		}));
+	})();
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<html>
+
+<head>
+	<script type="text/javascript" src="../js/handlebars-1.0.0-rc.3.js"></script>
+</head>
+
+<body>
+	<script id="block_helpers" type="text/x-handlebars-template">
+	<div class="entry">
+	    <h1>{{title}}</h1>
+	    <div class="body">
+	        {{#noop}}{{body}}{{/noop}}
+	    </div>
+	</div>
+	
+	<div class="entry">
+		{{!
+			You might find a helper like this useful if a section of your JSON
+			object contains a lot of important properties, and you don not want
+			to constantly need to repeat the parent name.
+		}}
+		<h1>{{title}}</h1>
+		{{#with story}}
+			<div class="intro">{{intro}}</div>
+			<div class="body">{{body}}</div>
+		{{/with}}
+	</div>
+
+	</script>
+	<script type="text/javascript">
+	(function() {
+		/*
+		 * The noop helper will receive an options hash. This options hash
+		 * contains a function **options.fn** that behaves like a normal
+		 * compiled Handlebars template. Specifically, the function will take
+		 * a context and return a string.
+		 *
+		 * Handlebars always invokes helpers with the current context as
+		 * *this*, so you can simply invoke the block with *this* to evaluate
+		 * the block in the current context.
+		 */
+		Handlebars.registerHelper("noop", function(options) {
+			return options.fn(this);
+		});
+
+		var source = document.getElementById("block_helpers").innerHTML;
+		var template = Handlebars.compile(source);
+		document.write(template({
+			title: "A New Post",
+			body: "Demo for Handlebars block helpers.",
+
+			story: {intro: "Introduction", body: "Content ..."}
+		}));
+	})();
+	</script>
+</body>
+
+</html>
