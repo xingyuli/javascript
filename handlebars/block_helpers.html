@@ -2,6 +2,7 @@
 
 <head>
 	<script type="text/javascript" src="../js/handlebars-1.0.0-rc.3.js"></script>
+	<script type="text/javascript" src="../js/prototype-1.7.js"></script>
 </head>
 
 <body>
@@ -24,6 +25,10 @@
 			<div class="intro">{{intro}}</div>
 			<div class="body">{{body}}</div>
 		{{/with}}
+
+		{{#list nav id="nav-bar" class="top"}}
+		    <a href="{{url}}">{{title}}</a>
+		{{/list}}
 	</div>
 
 	</script>
@@ -39,8 +44,27 @@
 		 * *this*, so you can simply invoke the block with *this* to evaluate
 		 * the block in the current context.
 		 */
-		Handlebars.registerHelper("noop", function(options) {
+		Handlebars.registerHelper('noop', function(options) {
 			return options.fn(this);
+		});
+
+		/*
+		 * Handlebars provides the final hash as **options.hash**. This makes
+		 * it easier to accept a variable number of parameters, while also
+		 * accepting an optional Hash. If the template provides no hash
+		 * arguments, Handlebars will automatically pass an empty object ({}),
+		 * so you don't need to check for the existence of Hash arguments.
+		 */
+		Handlebars.registerHelper('list', function(context, options) {
+			var attrs = $A($H(options.hash).keys()).map(function(key) {
+				return key + '="' + options.hash[key] + '"';
+			}).join(' ');
+
+			var items = $A(context).map(function(item) {
+				return '<li>' + options.fn(item) + '</li>';
+			}).join('\n');
+
+			return '<ul ' + attrs + '>' + items + '</ul>';
 		});
 
 		var source = document.getElementById("block_helpers").innerHTML;
@@ -49,7 +73,14 @@
 			title: "A New Post",
 			body: "Demo for Handlebars block helpers.",
 
-			story: {intro: "Introduction", body: "Content ..."}
+			story: {intro: "Introduction", body: "Content ..."},
+
+			nav: [
+				{url:'not_existed_1', title:'Title 1'},
+				{url:'not_existed_2', title:'Title 2'},
+				{url:'not_existed_3', title:'Title 3'},
+				{url:'not_existed_4', title:'Title 4'}
+			]
 		}));
 	})();
 	</script>
