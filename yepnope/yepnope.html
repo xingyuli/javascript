@@ -1,0 +1,54 @@
+<html>
+
+<head>
+	<script type="text/javascript" src="../js/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="../js/yepnope.1.5.4-min.js"></script>
+
+	<style type="text/css">
+	.focus {
+		background-color: yellow;
+		color: blue;
+	}
+
+	.myfocus {
+		font-weight: bold;
+	}
+	</style>
+</head>
+
+<body>
+	<div class="focusenabled">Try move your mouse here!</div>
+	<div class="focusenabled" focusclass="myfocus">Using customized focusclass</div>
+	<script type="text/javascript">
+	(function() {
+		yepnope({
+			load: [ 'focusenabled.js',  'empty.js' ],
+
+			/**
+			 * callback: invoked each time a resource has been loaded.
+			 * 
+			 * For this example, this callback will be invoked twice as we
+			 * have two resouces to load
+			 * 
+			 * url: 	this is the url (without any prefixes attached) that
+			 * 			was loaded
+			 * result:	this is the result of your test, treat it as a truthy
+			 *      	value
+			 *
+			 * key: 	if you provided a key mapping to your file, this is
+			 *			that key. Also if you are use an array, it's the index
+			 *			of the array it came from
+			**/
+			callback: function(url, result, key) {
+				console.log(url, result, key);
+			},
+
+			complete: function() {
+				console.log('complete!');
+			}
+		});
+	})();
+	</script>
+</body>
+
+</html>
