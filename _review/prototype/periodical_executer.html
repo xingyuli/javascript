@@ -1,0 +1,19 @@
+<DOCTYPE HTML>
+<html>
+ <body>
+     Count: <span id="count"></span>
+		<script type="text/javascript" src="../js/prototype.js"></script>
+		<script type="text/javascript">
+		 (function() {
+				var count = 0;
+				 new PeriodicalExecuter(function(pe) {
+					if (count >= 5) {
+						console.log('STOP');
+						pe.stop();
+					}
+					 document.getElementById('count').innerHTML = count++;
+				 }, 1);
+		 })();
+		 </script>
+ </body>
+</html>
