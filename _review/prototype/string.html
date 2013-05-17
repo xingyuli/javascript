@@ -1,0 +1,120 @@
+<DOCTYPE HTML>
+<html>
+<body>
+	<script type="text/javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" src="../js/writer.js"></script>
+	<script type="text/javascript">
+	(function() {
+		$dw.h4('String#blank(), String#empty()')
+		         .br("expression ''.blank(): " + ''.blank())
+				 .br("expression ' '.blank(): " + ' '.blank())
+				 .br("expression 'abc'.blank(): " + 'abc '.blank())
+				 .br("expression ''.empty(): " + ''.empty())
+				 .br("expression ' '.empty(): " + ' '.empty())
+				 .br("expression 'abc'.empty(): " + 'abc'.empty());
+	})();
+	
+	(function() {
+		$dw.h4('String#camelize()')
+		         .br("expression 'background-color'.camelize(): " + 'background-color'.camelize())
+				 .br("expression '-moz-binding'.camelize(): " + '-moz-binding'.camelize());
+	})();
+	
+	(function() {
+		// Capitalizes the first letter of a string and downcases all the others.
+		$dw.h4('String#capitalize()')
+		         .br("expression 'hello'.capitalize(): " + 'hello'.capitalize())
+				 .br("expression 'HELLO WORLD!'.capitalize(): " + 'HELLO WORLD!'.capitalize());
+	})();
+	
+	(function() {
+		// Replaces every instance of the underscore character "_" by a dash "-".
+		$dw.h4('String#dasherize()')
+		         .br("expression 'border_bottom_width'.dasherize(): " + 'border_bottom_width'.dasherize());
+	})();
+	
+	(function() {
+		$dw.h4('String#evalJSON()');
+		
+		var person = '{ "name": "Violet", "occupation": "character" }'.evalJSON();
+		$dw.br("Object.toJSON(person): " + Object.toJSON(person) + ', person.name: ' + person.name);
+		
+		// SyntaxError
+		// 'grabUserPassword()'.evalJSON(true);
+		
+		person = '/*-secure-\n{ "name": "Violet", "occupation": "character" }\n*\/'.evalJSON();
+		$dw.br("Object.toJSON(person): " + Object.toJSON(person) + ', person.name: ' + person.name);
+	})();
+	
+	(function() {
+		/*
+		  * Returns the string with every occurence  of a given pattern replaced by either a
+		  *     regular string
+		  *     or the returned value of a function
+		  *     or a Template string.
+		  *
+		  * The pattern can be a string or a regular expression.
+		  *
+		  * NOTE: String#gsub will not impact the orginal string!
+		  */
+		$dw.h4('String#gsub(pattern, replacement) -> String');
+		 
+		var mouseEvents = 'click dblclick mousedown mouseup mouseover mousemoove mouseout';
+		$dw.br('var mouseEvents = ' + mouseEvents.inspect() + ';');
+		
+		var replaceStringByString = mouseEvents.gsub(' ', ', ');
+		$dw.br().b("var replaceStringByString = mouseEvents.gsub(' ', ', ');").br()
+				 .br('replaceStringByString: ' + replaceStringByString.inspect());
+		
+		/* ***************************************************************** */
+		
+		var replaceRegexByString = mouseEvents.gsub(/\s+/, ', ');
+		$dw.br().b("var replaceRegexByString = mouseEvents.gsub(/\s+/, ', ');").br()
+		         .br('replaceRegexByString: ' + replaceRegexByString.inspect());
+		
+		/* ***************************************************************** */
+		
+		var replaceRegexByReturnedValueOfFunction = mouseEvents.gsub(/\w+/, function(match) {
+			return 'on' + match[0].capitalize();
+		});
+		$dw.br().b("var replaceRegexByReturnedValueOfFunction = mouseEvents.gsub(/\w+/, function(match) {return 'on' + match[0].capitalize(); });").br()
+				 .br('replaceRegexByReturnedValueOfFunction: ' + replaceRegexByReturnedValueOfFunction.inspect());
+		
+		var markdown = '![a pear](/img/pear.jpg) ![an orange](/img/orange.jpg)';
+		$dw.br().br('var markdown = ' + markdown.inspect() + ';');
+		var byFunction = markdown.gsub(/!\[(.*?)\]\((.*?)\)/, function(match) {
+			return '<img alt="' + match[1] + '" src="' + match[2] + '" />';
+		});
+		$dw.br('byFuntion: ' + byFunction.inspect().escapeHTML());
+		
+		/* ***************************************************************** */
+		
+		/*
+		  * You can pass a Template string in which you can also access the
+		  * returned value of the match() method using the ruby inspired
+		  * notation: #{0} for the first element of the array.
+		  *
+		  * i.e., the match will be passed to the Template string and act as
+		  * the context.
+		  */
+		var byTemplateString = markdown.gsub(/!\[(.*?)\]\((.*?)\)/, '<img alt="#{1}" src="#{2}"/>');
+		$dw.br('byTemplateString: ' + byTemplateString.inspect().escapeHTML());
+	})();
+	
+	(function() {
+		$dw.h4('String#include(substring) -> boolean')
+		         .br("expression 'Prototype framework'.include('frame'): " + 'Prototype framework'.include('frame'))
+		         .br("expression 'Prototype framework'.include('frameset'): " + 'Prototype framework'.include('frameset'));
+	})();
+	
+	(function() {
+		$dw.h4('String#interpolate(object[, pattern]) -> String');
+		
+		$dw.br("User Name: #{name}<br/>User Age: #{age}".interpolate({
+			name: 'Liu Xingyu',
+			age: 24
+		}));
+	})();
+	</script>
+</body>
+</html>
